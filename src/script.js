@@ -71,4 +71,4 @@ function changeTileSize(tileSize) {
     board.changeTileSize(tileSize);
 }
 
-export{generateNewBoard, changeTileSize};
+export{generateNewBoard, changeTileSize, manager};
