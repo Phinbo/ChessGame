@@ -11,7 +11,7 @@ import inputHandler from "./inputHandler.js";
 
      DONE - team turn changes when a move is made.
 
-    - create state history array (fen or states? fen is better for storage, but does this keep enough data?)
+    - create state history array (fen or states? fen is better for memory, but worse for performance since states would have to be generated)
 
      DONE- create a method that generates FEN from the current state.
 
@@ -42,7 +42,7 @@ let manager = new ChessStateManager(board);
 
 // INITIAL SETUP
 generateNewBoard(board.getRows(),board.getColumns(),"");   
-manager.fenGen(document.getElementById("fenArea").value);
+manager.initialGeneration(document.getElementById("fenArea").value);
 board.update(manager.getState());
 
 // MessageBoard hide and open
@@ -61,7 +61,7 @@ function generateNewBoard(row, col, fen) {
     board.setRows(row);
 
     board.generateBoard();
-    manager.fenGen(fen);
+    manager.initialGeneration(fen);
 
     new inputHandler(manager);
 

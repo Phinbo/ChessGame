@@ -15,7 +15,7 @@ export default class ChessStateManager {
         this.state = [];
         this.board = board;
         this.highlighted = [];  // and array of highlighted DIVS
-        this.stateHistory = []; // array holding all previous states of the game.
+        this.stateHistory = []; // array holding all previous states of the game (in fen format).
         this.movesThisTurn = 0;
         this.movesPerTurn = 1;
         this.enPassantTiles = [];
@@ -25,6 +25,7 @@ export default class ChessStateManager {
     ///////////////////////////
     /// SETTERS AND GETTERS ///
     ///////////////////////////
+    
     getTurn() {
         return this.turn;
     }
@@ -137,7 +138,7 @@ export default class ChessStateManager {
                 div.className = div.className + " underAttack";
             }
         }
-        this.board.update(this.state);
+        //this.board.update(this.state);
 
     }
     // MOVE TO BOARD
@@ -163,14 +164,18 @@ export default class ChessStateManager {
 
         this.board.update(this.state);
         this.stateHistory.push(this.genFen(this.state));
-
-        console.log('made move' + currPos + '-' + newPos);
     }
 
 
     //////////////////////////
     /// GENERATION METHODS /// -- MOVE TO NEW CLASS
     //////////////////////////
+
+    initialGeneration(FEN) {
+        this.stateHistory = [];
+        this.stateHistory.push(FEN);
+        this.state = this.fenGen(FEN);
+    }
 
     // generateFen() -- generate a fen string based on an input state
     genFen(state) {
@@ -224,10 +229,10 @@ export default class ChessStateManager {
             if (output.length != (this.board.getRows() * this.board.getColumns())) {
                 throw new Error("FEN code invalid for board");
             }
-            this.state = output;
+            return output;
         }
         catch {
-            this.fenGen((this.board.getColumns() * this.board.getRows()) + "");
+            return this.fenGen((this.board.getColumns() * this.board.getRows()) + ""); // generates all blanks when fengen failed.
         }
     }
     #fillBlanks(input, num) {   // helper for fengen()
