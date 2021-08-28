@@ -193,7 +193,6 @@ export default class ChessStateManager {
             }
             output = output + toAdd;
         }
-        console.log(output);
         return output;
     }
 
