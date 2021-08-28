@@ -6,7 +6,7 @@ import { generateNewBoard, changeTileSize} from "./script.js";
 
 let generateButton = document.getElementById("generateButton");
 let infoPage = document.getElementById('infoPage');
-let infoState = "visible";
+let infoState = "hidden";
 let openClose = document.getElementById("open-close");
 let canGenerate = Array.from(document.querySelectorAll('.canGenerate'));
 
@@ -73,7 +73,7 @@ function updateInfoPage() {
         case "hidden":
             infoState = "visible";
             infoPage.style.left = '0px';
-            openClose.style.left = '365px'
+            openClose.style.left = '365px';
             openClose.className = "fas fa-times-circle leftTransition";
             break;
         case "visible":

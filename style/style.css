@@ -63,7 +63,7 @@ body {
     height: 100vh;
     padding: 20px;
     line-height: 2rem;
-    left: 0px;
+    left: -373px;
     top: 0px;
     width: 400px;
     border-width: 0px 27px 0px 0;
@@ -85,7 +85,7 @@ body {
 #open-close {
     position: fixed;
     top: 30px;
-    left: 365px;
+    left: -8px;
     padding: 10px;
     border-radius: 50%;
     text-align: center;
