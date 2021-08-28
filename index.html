@@ -16,16 +16,26 @@
 
 </head>
 <body>
+    <!-- ChessBoard -->
     <div id="boardContainer"></div>
 
+    <!-- MessageBoard -->
     <i id="messageBoard-open-close" class="fas fa-times-circle "></i>
     <div id="messageBoard">
         <hr id="topHR" class="chatHR">
     </div>
 
+    <!-- Undo and Redo Buttons -->
+    <div id='undo-redo'>
+        <i id="undo"class="fas fa-undo-alt stateButton"></i>
+        <i id="redo"class="fas fa-redo-alt stateButton"></i>
+    </div>
+
+     <!-- InfoPage -->
     <div id="infoPage" class="leftTransition">
         <i id="open-close" class="fas fa-chevron-circle-right leftTransition darkBlue"></i>
         <h2 class="infoPageHeader" id="gameSettingsTitle">Game Settings</h2>
+        <!-- Generation/Resizing Buttons -->
         <div id="customButton">
             <label>Rows</label>
             <input class=" classBorderedInput canGenerate"id="row" type='number' value='8' min="1">
@@ -39,6 +49,7 @@
             <input id="generateButton" type='submit' value='Update'>
         </div>
         <hr>
+        <!-- Written Information -->
         <h2 class="infoPageHeader" id="infoTitle">Info</h2>
         <p>FEN strings represent the current position. R = Rook, N = Knight, B = Bishop, Q = Queen, K = King. Lowercase letters indicate a black piece, while uppcase letters indicate a white piece. A slash represents the end of a row, and a number represents that number of consecutive blank spaces. You can use this to create unique starting positions, and also to create starting positions for games on different sized boards. If the code you enter is invalid, nothing will happen when you press "update."<br><br>Pro tip, you will regret creating boards larger than 200x200. <br><br>As of 8/26: all pieces move correctly on an 8x8 board, but wrapping occurs for some reason on other-sized boards...</p>
     </div>
