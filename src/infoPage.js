@@ -16,8 +16,6 @@ let messageButton = document.getElementById("messageBoard-open-close");
 let messageButtonState = 'visible';
 let messageBoard = document.getElementById("messageBoard");
 
-updateMessageBoard();
-console.log('did this');
 
 
 

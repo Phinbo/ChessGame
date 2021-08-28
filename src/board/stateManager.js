@@ -163,6 +163,8 @@ export default class ChessStateManager {
 
         this.board.update(this.state);
         this.stateHistory.push(this.genFen(this.state));
+
+        console.log('made move' + currPos + '-' + newPos);
     }
 
 
