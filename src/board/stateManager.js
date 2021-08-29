@@ -16,6 +16,7 @@ export default class ChessStateManager {
         this.board = board;
         this.highlighted = [];  // and array of highlighted DIVS
         this.stateHistory = []; // array holding all previous states of the game (in fen format).
+        this.stateHistoryIndex; // where in the history list does the current state fall.
         this.movesThisTurn = 0;
         this.movesPerTurn = 1;
         this.enPassantTiles = [];
@@ -176,7 +177,7 @@ export default class ChessStateManager {
         this.state[currPos].setPiece(null);                             // the current position (old position) has its piece set to null.
 
         this.board.update(this.state);
-        this.stateHistory.push(this.genFen(this.state));
+        this.updateHistory(this.state);   // increment state history index
     }
 
 
@@ -184,10 +185,24 @@ export default class ChessStateManager {
     /// GENERATION METHODS /// -- MOVE TO NEW CLASS
     //////////////////////////
 
+    updateHistory(state) {
+        this.stateHistoryIndex++;
+        if (this.stateHistoryIndex == this.stateHistory.length) {   // at most recent point.
+            this.stateHistory.push(this.genFen(state)); // new state will end up in this position
+            console.log('at most recent point');
+            return;
+        }
+        // otherwise, need to clear all points in stateHistory that occur after the current index before adding.
+        this.stateHistory = this.stateHistory.slice(0, this.stateHistoryIndex + 1);
+        console.log('not at most recent point, deleting portion of stateHistory');
+
+    }
+
     initialGeneration(FEN) {
         this.stateHistory = [];
-        this.stateHistory.push(FEN);
+        this.stateHistoryIndex = -1;
         this.state = this.fenGen(FEN);
+        this.updateHistory(this.state);
     }
 
     // generateFen() -- generate a fen string based on an input state
@@ -285,7 +300,8 @@ export default class ChessStateManager {
     }
 
     undo() {
-        this.state = this.fenGen(this.stateHistory[this.stateHistory.length - 2]);
+        this.stateHistoryIndex--;
+        this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
         this.prevTeam();
         this.board.update(this.state);
         console.log('undo!!!');
