@@ -300,10 +300,25 @@ export default class ChessStateManager {
     }
 
     undo() {
+        if (this.stateHistoryIndex <= 0) {
+            console.log('nothing to undo');
+            return;
+        }
         this.stateHistoryIndex--;
         this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
         this.prevTeam();
         this.board.update(this.state);
         console.log('undo!!!');
+    }
+    redo() {
+        if (this.stateHistoryIndex == this.stateHistory.length - 1) {
+            console.log('nothing to redo');
+            return;
+        }
+        this.stateHistoryIndex++;
+        this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
+        this.nextTeam();
+        this.board.update(this.state);
+        console.log('redo!!!');
     }
 }

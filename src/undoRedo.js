@@ -8,7 +8,7 @@ undo.addEventListener("click", () => {
 });
 
 redo.addEventListener("click", () => {
-    console.log('redo clicked');
+    redoMove();
 });
 
 function undoMove() {
@@ -16,6 +16,6 @@ function undoMove() {
 }
 
 function redoMove() {
-    manager.undo();
+    manager.redo();
 }
 
