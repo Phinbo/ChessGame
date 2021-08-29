@@ -25,7 +25,7 @@ export default class ChessStateManager {
     ///////////////////////////
     /// SETTERS AND GETTERS ///
     ///////////////////////////
-    
+
     getTurn() {
         return this.turn;
     }
@@ -69,7 +69,21 @@ export default class ChessStateManager {
         return false;
     }
     nextTeam() {
+        this.movesThisTurn++;
         if (this.movesThisTurn < this.movesPerTurn) {    // when the game allows for many moves per turn, and the total amount of moves is less than that amount, dont change team turn;
+            return;
+        }
+        this.movesThisTurn = 0;
+        if (this.turn == 'white') {
+            this.turn = 'black';
+            return;
+        }
+        this.turn = 'white';
+        return;
+    }
+    prevTeam() {
+        this.movesThisTurn--;
+        if (this.movesThisTurn >= 0) {    // when the game allows for many moves per turn, and the total amount of moves is less than that amount, dont change team turn;
             return;
         }
         this.movesThisTurn = 0;
@@ -152,7 +166,6 @@ export default class ChessStateManager {
 
     // move: alter the game state and display the message
     move(currPos, newPos, isTake, takeName) {
-        this.incrementMoves();
         this.nextTeam();    // change which team moves next;
 
         MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
@@ -269,5 +282,12 @@ export default class ChessStateManager {
                 break;
         }
         input.push(new ChessTile(input.length, piece));
+    }
+
+    undo() {
+        this.state = this.fenGen(this.stateHistory[this.stateHistory.length - 2]);
+        this.prevTeam();
+        this.board.update(this.state);
+        console.log('undo!!!');
     }
 }

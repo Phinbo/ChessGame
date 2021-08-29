@@ -11,7 +11,7 @@ import inputHandler from "./inputHandler.js";
 
      DONE - team turn changes when a move is made.
 
-    - create state history array (fen or states? fen is better for memory, but worse for performance since states would have to be generated)
+     DONE - create state history array (fen or states? fen is better for memory, but worse for performance since states would have to be generated)
 
      DONE- create a method that generates FEN from the current state.
 

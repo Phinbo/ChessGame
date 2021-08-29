@@ -4,12 +4,18 @@ let redo = document.getElementById("redo");
 let undo = document.getElementById("undo");
 
 undo.addEventListener("click", () => {
-    console.log('undo clicked');
+    undoMove();
 });
 
 redo.addEventListener("click", () => {
     console.log('redo clicked');
 });
 
-//function undo
+function undoMove() {
+    manager.undo();
+}
+
+function redoMove() {
+    manager.undo();
+}
 
