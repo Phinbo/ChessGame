@@ -7,8 +7,7 @@ This is a personal project of mine. Trying to create something to prove my knowl
 2. Pawn piece changing. 
 3. Castling. 
 4. Check and checkmate detection. 
-**DONE** 
-5. Undo and Redo (almost done). 
+5. Undo and Redo (**DONE**). 
 6. Alternate Win condition settings:
     1. Checkmate
     2. Elimination
