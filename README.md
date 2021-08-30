@@ -16,4 +16,4 @@ This is a personal project of mine. Trying to create something to prove my knowl
 
 ## Known Bugs
 1. When undoing and redoing, the states of pieces is reset, allowing pawns to double jump again. This also complicates the developement of castling, since I can't just check if the king and the rook have moved.
-2. Undo and redo doesnt update the move history messageboard.
+
