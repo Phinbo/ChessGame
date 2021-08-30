@@ -194,7 +194,7 @@ export default class ChessStateManager {
         }
         // otherwise, need to clear all points in stateHistory that occur after the current index before adding.
         MessageBoard.clearRedoPath();
-        this.stateHistory = this.stateHistory.slice(0, this.stateHistoryIndex);
+        this.stateHistory = this.stateHistory.slice(0, this.stateHistoryIndex + 1);
         console.log('not at most recent point, deleting portion of stateHistory');
 
     }
@@ -256,11 +256,11 @@ export default class ChessStateManager {
                 }
             }
             if (output.length != (this.board.getRows() * this.board.getColumns())) {
-                console.trace('invalid fen');
+                //console.trace('invalid fen');
                 throw new Error("FEN code invalid for board");
             }
             else {
-                console.trace('fen valid');
+                //console.trace('fen valid');
             }
             return output;
         }

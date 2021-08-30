@@ -39,7 +39,7 @@ export default class MessageBoard {
     
     static add(message, hr) {
         let messageBoards = document.getElementById('messageBoard');
-        console.log(typeof this.messageHistory);
+        //console.log(typeof this.messageHistory);
         this.messageHistory.push([message, hr]);
 
         messageBoards.appendChild(message);
@@ -56,11 +56,16 @@ export default class MessageBoard {
         messageBoards.removeChild(toRemove[1]);
     }
     static redo() {
-        console.log(this.redoPath);
+        if(this.redoPath.length < 1) {
+            console.log('redoPath has no entries');
+            return;
+        }
+        //console.log(this.redoPath);
         let toAdd = this.redoPath.pop();
         this.add(toAdd[0], toAdd[1]);
     }
     static clearRedoPath() {
+        console.log('clearpath');
         for(let i = 0; i < this.redoPath.length; i++) {
             this.redoPath[i][0].remove();
             this.redoPath[i][1].remove();
