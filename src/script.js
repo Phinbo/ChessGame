@@ -27,9 +27,11 @@ import inputHandler from "./inputHandler.js";
 
     - implement check and checkmate awareness
 
+    - refactor undo and redo using stacks. push to history stack when new move. pop from history stack and push into redo stack on undo. 
+
     DONE - make a way to hide the chat log
 
-    - 
+    - make chat messages dissappear on undo, and reappear on undo, and delete when a new move is made
 */
 
 

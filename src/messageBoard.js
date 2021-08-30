@@ -2,10 +2,11 @@
 export default class MessageBoard {
     constructor() {
     }
+    static messageHistory = [];
+    static redoPath = [];
 
     // Display a message to the screen
-    static message(str, piece) {
-        let messageBoards = document.getElementById('messageBoard');
+    static message(str) {
         let newMessage = document.createElement('p');
         let separator = document.createElement('hr');
         separator.className = "chatHR";
@@ -13,23 +14,7 @@ export default class MessageBoard {
         newMessage.className = "message";
         newMessage.textContent = str;
 
-        // let color = '';
-        // if(piece != null) { color = piece.getColor(); }
-
-        // switch(color) {
-        //     case 'white':
-        //         newMessage.style.color = '#BBB';
-        //         break;
-        //     case 'black':
-        //         newMessage.style.color =  "#000";
-        //         break;
-        //     case '':
-        //         break;
-        // }
-
-        messageBoards.appendChild(newMessage);
-        messageBoards.appendChild(separator);
-        messageBoards.scrollTop = messageBoard.scrollHeight;
+        this.add(newMessage, separator);
     }
 
     // Display a move message to the screen
@@ -49,7 +34,37 @@ export default class MessageBoard {
             endCol = String.fromCharCode(64 + endCol);
             output = (piece.getColor()[0].toUpperCase() + ": " + piece.getName() + " " + startCol + startRow + actionPhrase + endCol + endRow + "");
         }
-        this.message(output, piece);
+        this.message(output);
     }
     
+    static add(message, hr) {
+        let messageBoards = document.getElementById('messageBoard');
+        console.log(typeof this.messageHistory);
+        this.messageHistory.push([message, hr]);
+
+        messageBoards.appendChild(message);
+        messageBoards.appendChild(hr);
+
+        messageBoards.scrollTop = messageBoard.scrollHeight;
+    }
+
+    static undo() {
+        let messageBoards = document.getElementById('messageBoard');
+        let toRemove = this.messageHistory.pop();
+        this.redoPath.push(toRemove);
+        messageBoards.removeChild(toRemove[0]);
+        messageBoards.removeChild(toRemove[1]);
+    }
+    static redo() {
+        console.log(this.redoPath);
+        let toAdd = this.redoPath.pop();
+        this.add(toAdd[0], toAdd[1]);
+    }
+    static clearRedoPath() {
+        for(let i = 0; i < this.redoPath.length; i++) {
+            this.redoPath[i][0].remove();
+            this.redoPath[i][1].remove();
+        }
+        this.redoPath = [];
+    }
 }

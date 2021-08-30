@@ -189,11 +189,12 @@ export default class ChessStateManager {
         this.stateHistoryIndex++;
         if (this.stateHistoryIndex == this.stateHistory.length) {   // at most recent point.
             this.stateHistory.push(this.genFen(state)); // new state will end up in this position
-            console.log('at most recent point');
+            //console.log('at most recent point');
             return;
         }
         // otherwise, need to clear all points in stateHistory that occur after the current index before adding.
-        this.stateHistory = this.stateHistory.slice(0, this.stateHistoryIndex + 1);
+        MessageBoard.clearRedoPath();
+        this.stateHistory = this.stateHistory.slice(0, this.stateHistoryIndex);
         console.log('not at most recent point, deleting portion of stateHistory');
 
     }
@@ -255,7 +256,11 @@ export default class ChessStateManager {
                 }
             }
             if (output.length != (this.board.getRows() * this.board.getColumns())) {
+                console.trace('invalid fen');
                 throw new Error("FEN code invalid for board");
+            }
+            else {
+                console.trace('fen valid');
             }
             return output;
         }
@@ -299,6 +304,10 @@ export default class ChessStateManager {
         input.push(new ChessTile(input.length, piece));
     }
 
+    /////////////////////
+    /// UNDO AND REDO ///
+    /////////////////////
+
     undo() {
         if (this.stateHistoryIndex <= 0) {
             console.log('nothing to undo');
@@ -308,6 +317,7 @@ export default class ChessStateManager {
         this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
         this.prevTeam();
         this.board.update(this.state);
+        MessageBoard.undo();
         console.log('undo!!!');
     }
     redo() {
@@ -319,6 +329,7 @@ export default class ChessStateManager {
         this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
         this.nextTeam();
         this.board.update(this.state);
+        MessageBoard.redo();
         console.log('redo!!!');
     }
 }
