@@ -15,10 +15,13 @@ export default class ChessStateManager {
         this.state = [];
         this.board = board;
         this.highlighted = [];  // and array of highlighted DIVS
-        this.stateHistory = []; // array holding all previous states of the game (in fen format).
-        this.stateHistoryIndex; // where in the history list does the current state fall.
+
+        this.stateHistory = []; // stack holding move history in fen format
+        this.redoPath = [];     // stack holding redoPath
+
         this.movesThisTurn = 0;
         this.movesPerTurn = 1;
+
         this.enPassantTiles = [];
     }
 
@@ -63,6 +66,11 @@ export default class ChessStateManager {
         //console.log(index + " is in column " + col);
         return col; // return the index of the column
     }
+
+    ///////////////////////
+    /// OTHER UTILITIES /// 
+    ///////////////////////
+    
     pieceTurn(index) {   // returns true when the selected tile belongs to the team whos turn it is to move.
         if (this.state[index].getPiece().getColor() == this.turn) {
             return true;
@@ -186,17 +194,12 @@ export default class ChessStateManager {
     //////////////////////////
 
     updateHistory(state) {
-        this.stateHistoryIndex++;
-        if (this.stateHistoryIndex == this.stateHistory.length) {   // at most recent point.
-            this.stateHistory.push(this.genFen(state)); // new state will end up in this position
-            //console.log('at most recent point');
-            return;
-        }
-        // otherwise, need to clear all points in stateHistory that occur after the current index before adding.
-        MessageBoard.clearRedoPath();
-        this.stateHistory = this.stateHistory.slice(0, this.stateHistoryIndex + 1);
-        console.log('not at most recent point, deleting portion of stateHistory');
+        this.stateHistory.push(this.genFen(state)); // add to stateHistory
 
+        if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
+            MessageBoard.clearRedoPath();
+            this.clearRedoPath();
+        }
     }
 
     initialGeneration(FEN) {
@@ -309,27 +312,39 @@ export default class ChessStateManager {
     /////////////////////
 
     undo() {
-        if (this.stateHistoryIndex <= 0) {
+        if (this.stateHistory.length <= 1) {
             console.log('nothing to undo');
             return;
         }
-        this.stateHistoryIndex--;
-        this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
+
+        let toRemove = this.stateHistory.pop();
+        this.redoPath.push(toRemove);
+        //console.log('added ' + toRemove + ' to redoPath');
+
+        this.state = this.fenGen(this.stateHistory[this.stateHistory.length - 1]); 
         this.prevTeam();
         this.board.update(this.state);
+
         MessageBoard.undo();
-        console.log('undo!!!');
+        // console.log('undo!!!');
     }
     redo() {
-        if (this.stateHistoryIndex == this.stateHistory.length - 1) {
+        if (this.redoPath.length == 0) {
             console.log('nothing to redo');
             return;
         }
-        this.stateHistoryIndex++;
-        this.state = this.fenGen(this.stateHistory[this.stateHistoryIndex]);
+
+        let toAdd = this.redoPath.pop();
+        this.stateHistory.push(toAdd);
+
+        this.state = this.fenGen(this.stateHistory[this.stateHistory.length - 1]); 
         this.nextTeam();
         this.board.update(this.state);
+
         MessageBoard.redo();
-        console.log('redo!!!');
+        // console.log('redo!!!');
+    }
+    clearRedoPath() {
+        this.redoPath = [];
     }
 }
