@@ -14,7 +14,6 @@ export default class ChessStateManager {
         this.turn = 'white';
         this.state = [];
         this.board = board;
-        this.highlighted = [];  // and array of highlighted DIVS
 
         this.stateHistory = []; // stack holding move history in fen format
         this.redoPath = [];     // stack holding redoPath
@@ -130,49 +129,6 @@ export default class ChessStateManager {
         }
         return false;
     }
-
-    // // MOVE TO BOARD --- READY TO MOVE
-    // highlightMoves(currPos) {
-    //     let piece = this.manager.getState()[currPos].getPiece();
-    //     piece.generateMoves(currPos);
-
-    //     let div = this.manager.getDivFromIndex(currPos);
-    //     div.className = div.className + " highTile";
-    //     this.highlighted.push(div);
-
-    //     let moves = piece.getValidMoves();
-    //     moves = moves.concat(piece.getValidTakes());
-
-    //     let takes = piece.getValidTakes();
-
-    //     // moves and takes
-    //     for (let i = 0; i < moves.length; i++) {
-    //         div = this.manager.getDivFromIndex(moves[i]);
-    //         if (div != null) {
-    //             this.highlighted.push(div);
-    //             div.className = div.className + " highTile";
-    //         }
-    //     }
-
-    //     // takes only
-    //     for (let i = 0; i < takes.length; i++) {
-    //         div = this.manager.getDivFromIndex(takes[i]);
-    //         if (div != null) {
-    //             this.highlighted.push(div);
-    //             div.className = div.className + " underAttack";
-    //         }
-    //     }
-    //     //this.board.update(this.state);
-
-    // }
-    // // MOVE TO BOARD
-    // unhighlight() {
-    //     for (let i = 0; i < this.highlighted.length; i++) {
-    //         let div = this.highlighted[i];
-    //         div.className = div.className.replace(' highTile', '');
-    //         div.className = div.className.replace(' underAttack', '');
-    //     }
-    // }
 
     // move: alter the game state and display the message
     move(currPos, newPos, isTake, takeName) {
