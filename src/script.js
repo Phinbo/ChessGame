@@ -15,7 +15,23 @@ import inputHandler from "./inputHandler.js";
 
      DONE- create a method that generates FEN from the current state.
 
+    - Make InfoPage responsive --- the page is jank... the button in particular is jank.
+
+    - Make the board have a CLEAN SLATE when resizing or new generational fen is used.... currently the team whos move it is stays the same..
+
+    - PREVENT double jumping of pawns after an undo or redo...
+        - change hasMoved() to be a more complex method. --- ONLY APPLIES TO PAWNS
+        - check if it is on a tile where a PAWN of its OWN COLOR was at the INITIAL STATE in stateHistory.
+        - THIS iS A JANKY ASS SOLUTION
+
+        ALTERNATIVE: More robust and more reusable... make it so that UPDATE doesnt delete the pieces that were already there!
+            - this would require a shitload of refactoring... basically the stateHistory would need to be dissolved..
+            - history would have to track MOVES instead. this way when you update the board, you look at the move and perform it, without creating new pieces entirely. 
+                    - This is possible because it means you wouldnt have to regenerate from FEN states which inherently cannot remember previous pieces.
+            - would have to redo the update method, move method, and undo/redo of stateManager... lots to evaluate.
+
     - Implement en passant in the pawn
+            - when a pawn double jumps... ADD a new piece
     
     - Implement castling.
 
@@ -27,11 +43,11 @@ import inputHandler from "./inputHandler.js";
 
     - implement check and checkmate awareness
 
-    - refactor undo and redo using stacks. push to history stack when new move. pop from history stack and push into redo stack on undo. 
+    DONE - refactor undo and redo using stacks. push to history stack when new move. pop from history stack and push into redo stack on undo. 
 
     DONE - make a way to hide the chat log
 
-    - make chat messages dissappear on undo, and reappear on undo, and delete when a new move is made
+    DONE - make chat messages dissappear on undo, and reappear on undo, and delete when a new move is made
 */
 
 
