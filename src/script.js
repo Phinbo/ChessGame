@@ -19,7 +19,7 @@ import inputHandler from "./inputHandler.js";
             - this would require a shitload of refactoring... basically the stateHistory would need to be dissolved..
             - history would have to track MOVES instead. this way when you update the board, you look at the move and perform it, without creating new pieces entirely. 
                     - This is possible because it means you wouldnt have to regenerate from FEN states which inherently cannot remember previous pieces.
-            - would have to redo the update method, move method, and undo/redo of stateManager... lots to evaluate.
+            - would have to redo the move method, and undo/redo of stateManager... lots to evaluate.
 
     - Implement en passant in the pawn
             - when a pawn double jumps... ADD a new piece

@@ -1,3 +1,5 @@
+import { manager } from "/src/script.js";
+
 // THIS CLASS WILL DO THE FOLLOWING AND NO MORE
 
 // display the board
@@ -11,6 +13,10 @@ export default class ChessBoard {
         this.totalWidth = totalWidth;
         this.boardContainer;
         this.tileSize = 105;
+
+        this.manager;
+
+        this.highlighted = [];
 
         window.addEventListener('resize', (e) => {
             this.#positionBoard(this.boardContainer);
@@ -182,13 +188,51 @@ export default class ChessBoard {
         }
     }
 
-    #calculateTileSize() {
-        let smallestParam = Math.min(this.numRows, this.numColumns);
-        let largestParam = Math.max(this.numRows, this.numColumns);
-        let ratio = largestParam / smallestParam;
-        let size = (this.totalWidth / smallestParam) * 1 / Math.pow(ratio, 1/4);//Math.sqrt((Math.sqrt(ratio)));  // CALCULATE TILE SIZE
+    // HIGHLIGHT
+    // MOVE TO BOARD --- READY TO MOVE
+    highlightMoves(currPos) {
+        this.manager = manager;
 
-        return size;
+        console.log("highlight");
+        let piece = this.manager.getState()[currPos].getPiece();
+        piece.generateMoves(currPos);
+
+        let div = this.manager.getDivFromIndex(currPos);
+        div.className = div.className + " highTile";
+        this.highlighted.push(div);
+
+        let moves = piece.getValidMoves();
+        moves = moves.concat(piece.getValidTakes());
+
+        let takes = piece.getValidTakes();
+
+        // moves and takes
+        for (let i = 0; i < moves.length; i++) {
+            div = this.manager.getDivFromIndex(moves[i]);
+            if (div != null) {
+                this.highlighted.push(div);
+                div.className = div.className + " highTile";
+            }
+        }
+
+        // takes only
+        for (let i = 0; i < takes.length; i++) {
+            div = this.manager.getDivFromIndex(takes[i]);
+            if (div != null) {
+                this.highlighted.push(div);
+                div.className = div.className + " underAttack";
+            }
+        }
+        //this.board.update(this.state);
+
+    }
+    // MOVE TO BOARD
+    unhighlight() {
+        for (let i = 0; i < this.highlighted.length; i++) {
+            let div = this.highlighted[i];
+            div.className = div.className.replace(' highTile', '');
+            div.className = div.className.replace(' underAttack', '');
+        }
     }
 
 
@@ -198,7 +242,7 @@ export default class ChessBoard {
 
     // SHOW PIECES ON TILES.
     update(state) {
-        //console.log('update');
+        // THIS METHOD DOES NOT CREATE NEW PIECES
         for (let i = 0; i < this.numRows * this.numColumns; i++) {
             let textElement = document.getElementById("chessBoardTileContent" + i);
             if (state[i].hasPiece()) {
