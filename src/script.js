@@ -6,15 +6,6 @@ import inputHandler from "./inputHandler.js";
 /*
 
     TODO
-     DONE - There is a bug that causes moves to wrap around the board when board is changed from 8x8 to 12x8... fix it. 
-        use this fen rnbqkbnr/pppppppp/8/8/8/8/8/8/8/8/PPPPPPPP/RNBQKBNR
-
-     DONE - team turn changes when a move is made.
-
-     DONE - create state history array (fen or states? fen is better for memory, but worse for performance since states would have to be generated)
-
-     DONE- create a method that generates FEN from the current state.
-
     - Make InfoPage responsive --- the page is jank... the button in particular is jank.
 
     - Make the board have a CLEAN SLATE when resizing or new generational fen is used.... currently the team whos move it is stays the same..
@@ -35,19 +26,7 @@ import inputHandler from "./inputHandler.js";
     
     - Implement castling.
 
-     DONE - Add event listener or something that makes board center itself when the page is resized
-
-     DONE - implement movesets for other pieces
-
-     DONE   - make valid moves be highlighted (use classnames and css? may need to remember previous classname... just make this.classname in ChessTile()... then dont change it... idk)
-
     - implement check and checkmate awareness
-
-    DONE - refactor undo and redo using stacks. push to history stack when new move. pop from history stack and push into redo stack on undo. 
-
-    DONE - make a way to hide the chat log
-
-    DONE - make chat messages dissappear on undo, and reappear on undo, and delete when a new move is made
 */
 
 
