@@ -67,6 +67,7 @@ export default class ChessStateManager {
         return col; // return the index of the column
     }
 
+    
     ///////////////////////
     /// OTHER UTILITIES /// 
     ///////////////////////
