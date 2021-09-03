@@ -51,6 +51,7 @@ body {
     background-color: var(--lightTileColor);
 }
 
+
 #infoPage {
     z-index: 14;
     position: fixed;
