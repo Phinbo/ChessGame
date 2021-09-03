@@ -50,7 +50,7 @@ export default class inputHandler {
         if (tile.hasPiece()) {
             this.holding = tile.getPiece();
             this.holdPosition = tile.getPosition();
-            this.manager.highlightMoves(this.holdPosition);
+            this.manager.getBoard().highlightMoves(this.holdPosition);
             return;
         }
         this.holding = null;
@@ -74,6 +74,6 @@ export default class inputHandler {
         }
         this.holding = null;
         this.holdPosition = null;
-        this.manager.unhighlight();
+        this.manager.getBoard().unhighlight();
     }
 }

@@ -14,7 +14,6 @@ export default class ChessStateManager {
         this.turn = 'white';
         this.state = [];
         this.board = board;
-        this.highlighted = [];  // and array of highlighted DIVS
 
         this.stateHistory = []; // stack holding move history in fen format
         this.redoPath = [];     // stack holding redoPath
@@ -66,6 +65,7 @@ export default class ChessStateManager {
         //console.log(index + " is in column " + col);
         return col; // return the index of the column
     }
+
 
     ///////////////////////
     /// OTHER UTILITIES /// 
@@ -128,49 +128,6 @@ export default class ChessStateManager {
             return true;
         }
         return false;
-    }
-
-    // MOVE TO BOARD
-    highlightMoves(currPos) {
-        let piece = this.state[currPos].getPiece();
-        piece.generateMoves(currPos);
-
-        let div = this.getDivFromIndex(currPos);
-        div.className = div.className + " highTile";
-        this.highlighted.push(div);
-
-        let moves = piece.getValidMoves();
-        moves = moves.concat(piece.getValidTakes());
-
-        let takes = piece.getValidTakes();
-
-        // moves and takes
-        for (let i = 0; i < moves.length; i++) {
-            div = this.getDivFromIndex(moves[i]);
-            if (div != null) {
-                this.highlighted.push(div);
-                div.className = div.className + " highTile";
-            }
-        }
-
-        // takes only
-        for (let i = 0; i < takes.length; i++) {
-            div = this.getDivFromIndex(takes[i]);
-            if (div != null) {
-                this.highlighted.push(div);
-                div.className = div.className + " underAttack";
-            }
-        }
-        //this.board.update(this.state);
-
-    }
-    // MOVE TO BOARD
-    unhighlight() {
-        for (let i = 0; i < this.highlighted.length; i++) {
-            let div = this.highlighted[i];
-            div.className = div.className.replace(' highTile', '');
-            div.className = div.className.replace(' underAttack', '');
-        }
     }
 
     // move: alter the game state and display the message

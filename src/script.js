@@ -6,32 +6,27 @@ import inputHandler from "./inputHandler.js";
 /*
 
     TODO
-     DONE - There is a bug that causes moves to wrap around the board when board is changed from 8x8 to 12x8... fix it. 
-        use this fen rnbqkbnr/pppppppp/8/8/8/8/8/8/8/8/PPPPPPPP/RNBQKBNR
+    - Make InfoPage responsive --- the page is jank... the button in particular is jank.
 
-     DONE - team turn changes when a move is made.
+    - Make the board have a CLEAN SLATE when resizing or new generational fen is used.... currently the team whos move it is stays the same..
 
-     DONE - create state history array (fen or states? fen is better for memory, but worse for performance since states would have to be generated)
+    - PREVENT double jumping of pawns after an undo or redo...
+        - change hasMoved() to be a more complex method. --- ONLY APPLIES TO PAWNS
+        - check if it is on a tile where a PAWN of its OWN COLOR was at the INITIAL STATE in stateHistory.
+        - THIS iS A JANKY ASS SOLUTION
 
-     DONE- create a method that generates FEN from the current state.
+        ALTERNATIVE: More robust and more reusable... make it so that UPDATE doesnt delete the pieces that were already there!
+            - this would require a shitload of refactoring... basically the stateHistory would need to be dissolved..
+            - history would have to track MOVES instead. this way when you update the board, you look at the move and perform it, without creating new pieces entirely. 
+                    - This is possible because it means you wouldnt have to regenerate from FEN states which inherently cannot remember previous pieces.
+            - would have to redo the move method, and undo/redo of stateManager... lots to evaluate.
 
     - Implement en passant in the pawn
+            - when a pawn double jumps... ADD a new piece
     
     - Implement castling.
 
-     DONE - Add event listener or something that makes board center itself when the page is resized
-
-     DONE - implement movesets for other pieces
-
-     DONE   - make valid moves be highlighted (use classnames and css? may need to remember previous classname... just make this.classname in ChessTile()... then dont change it... idk)
-
     - implement check and checkmate awareness
-
-    - refactor undo and redo using stacks. push to history stack when new move. pop from history stack and push into redo stack on undo. 
-
-    DONE - make a way to hide the chat log
-
-    - make chat messages dissappear on undo, and reappear on undo, and delete when a new move is made
 */
 
 
