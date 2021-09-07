@@ -42,9 +42,6 @@ generateNewBoard(board.getRows(),board.getColumns(),"");
 manager.initialGeneration(document.getElementById("fenArea").value);
 board.update(manager.getState());
 
-// MessageBoard hide and open
-
-
 
 /////////////////
 /// FUNCTIONS ///
