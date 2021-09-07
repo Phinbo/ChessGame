@@ -15,7 +15,7 @@ import inputHandler from "./inputHandler.js";
         - check if it is on a tile where a PAWN of its OWN COLOR was at the INITIAL STATE in stateHistory.
         - THIS iS A JANKY ASS SOLUTION
 
-        ALTERNATIVE: More robust and more reusable... make it so that UPDATE doesnt delete the pieces that were already there!
+        ALTERNATIVE: More robust and more reusable... make it so that undoRedo doesnt delete the pieces that were already there!
             - this would require a shitload of refactoring... basically the stateHistory would need to be dissolved..
             - history would have to track MOVES instead. this way when you update the board, you look at the move and perform it, without creating new pieces entirely. 
                     - This is possible because it means you wouldnt have to regenerate from FEN states which inherently cannot remember previous pieces.

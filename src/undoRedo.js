@@ -12,10 +12,10 @@ redo.addEventListener("click", () => {
 });
 
 function undoMove() {
-    manager.undo();
+    manager.undoMove();
 }
 
 function redoMove() {
-    manager.redo();
+    manager.redoMove();
 }
 
