@@ -16,15 +16,13 @@ export default class ChessStateManager {
         this.state = [];
         this.board = board;
 
-        this.stateHistory = []; // stack holding move history in fen format
-        this.redoPath = [];     // stack holding redoPath
-
+        this.firstMoveHistory = [];
+        
         this.moveHistory = []; // {currPos, endPos, pieceTaken};
+        this.redoPath = [];     // stack holding redoPath
 
         this.movesThisTurn = 0;
         this.movesPerTurn = 1;
-
-        this.enPassantTiles = [];
     }
 
 
@@ -106,9 +104,6 @@ export default class ChessStateManager {
         this.turn = 'white';
         return;
     }
-    incrementMoves() {
-        this.movesThisTurn++;
-    }
 
 
     //////////////////////////
@@ -139,9 +134,10 @@ export default class ChessStateManager {
 
         MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
 
-        this.moveHistory.push(new Move(currPos, newPos, this.state[newPos].getPiece()));
+        this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
 
-        this.state[currPos].getPiece().setMoved(true);
+        this.addFirstMove(this.state[currPos].getPiece());
+
         this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
         this.state[currPos].setPiece(null);                             // the current position (old position) has its piece set to null.
 
@@ -153,59 +149,10 @@ export default class ChessStateManager {
         }
     }
 
-    //unmove
-    undoMove() {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
-        if (this.moveHistory.length == 0) {
-            console.log('nothing to undo');
-            return;
-        }
-
-        this.prevTeam();
-        MessageBoard.undo();
-
-        let undo = this.moveHistory.pop();
-        this.redoPath.push(undo);
-
-        this.state[undo.getStart()].setPiece(this.state[undo.getEnd()].getPiece()); // set state at a moves start point to the end piece
-        this.state[undo.getEnd()].setPiece(undo.getPiece());
-
-        this.board.update(this.state);
-    }
-
-    redoMove() {
-
-        console.log(this.redoPath);
-
-        if (this.redoPath.length == 0) {
-            console.log('nothing to redo');
-            return;
-        }
-
-        this.nextTeam();
-        MessageBoard.redo();
-
-        let redo = this.redoPath.pop();
-        this.moveHistory.push(redo);
-
-        this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
-        this.state[redo.getStart()].setPiece(null);
-
-        this.board.update(this.state);
-    }
-
 
     //////////////////////////
     /// GENERATION METHODS /// -- MOVE TO NEW CLASS
     //////////////////////////
-
-    updateHistory(state) {
-        this.stateHistory.push(this.genFen(state)); // add to stateHistory
-
-        if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
-            MessageBoard.clearRedoPath();
-            this.clearRedoPath();
-        }
-    }
 
     initialGeneration(FEN) {
         this.state = this.fenGen(FEN);
@@ -311,39 +258,67 @@ export default class ChessStateManager {
     /// UNDO AND REDO ///
     /////////////////////
 
-    // undo() {
-    //     if (this.stateHistory.length <= 1) {
-    //         console.log('nothing to undo');
-    //         return;
-    //     }
+    addFirstMove(piece) {
+        if (!this.firstMoveHistory.includes(piece)) {
+            piece.setMoved(true);
+            this.firstMoveHistory.push(piece);
+            console.log('piece has NOT moved before');
+            return;
+        }
+        this.firstMoveHistory.push(null);
+        console.log('piece has moved before');
+        
+    }
+    popFirstMove() {
+        let piece = this.firstMoveHistory.pop();
+        if (piece == null) {
+            return;
+        }
+        piece.setMoved(false);
+    }
 
-    //     let toRemove = this.stateHistory.pop();
-    //     this.redoPath.push(toRemove);
-    //     //console.log('added ' + toRemove + ' to redoPath');
+    //unmove
+    undoMove() {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
+        if (this.moveHistory.length == 0) {
+            console.log('nothing to undo');
+            return;
+        }
 
-    //     this.state = this.fenGen(this.stateHistory[this.stateHistory.length - 1]); 
-    //     this.prevTeam();
-    //     this.board.update(this.state);
+        this.prevTeam();
+        MessageBoard.undo();
+        this.popFirstMove();
 
-    //     MessageBoard.undo();
-    //     // console.log('undo!!!');
-    // }
-    // redo() {
-    //     if (this.redoPath.length == 0) {
-    //         console.log('nothing to redo');
-    //         return;
-    //     }
+        let undo = this.moveHistory.pop();
+        this.redoPath.push(undo);
 
-    //     let toAdd = this.redoPath.pop();
-    //     this.stateHistory.push(toAdd);
+        this.state[undo.getStart()].setPiece(undo.getMovePiece()); // set state at a moves start point to the end piece
+        this.state[undo.getEnd()].setPiece(undo.getTakePiece());
 
-    //     this.state = this.fenGen(this.stateHistory[this.stateHistory.length - 1]); 
-    //     this.nextTeam();
-    //     this.board.update(this.state);
+        this.board.update(this.state);
+    }
 
-    //     MessageBoard.redo();
-    //     // console.log('redo!!!');
-    // }
+    redoMove() {
+        console.log(this.redoPath);
+
+        if (this.redoPath.length == 0) {
+            console.log('nothing to redo');
+            return;
+        }
+
+        this.nextTeam();
+        MessageBoard.redo();
+        
+        let redo = this.redoPath.pop();
+        this.moveHistory.push(redo);
+
+        this.addFirstMove(redo.getMovePiece());
+
+        this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
+        this.state[redo.getStart()].setPiece(null);
+
+        this.board.update(this.state);
+    }
+
     clearRedoPath() {
         this.redoPath = [];
     }

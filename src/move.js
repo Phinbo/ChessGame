@@ -1,10 +1,14 @@
 // an object that represents a move taken.
 
 export default class Move {
-    constructor(start, end, piece) {
+    constructor(movePiece, start, end, takePiece) {
+        this.movePiece = movePiece;
         this.start = start;
         this.end = end;
-        this.piece = piece;
+        this.takePiece = takePiece;
+    }
+    getMovePiece() {
+        return this.movePiece;
     }
     getStart() {
         return this.start;
@@ -12,7 +16,7 @@ export default class Move {
     getEnd() {
         return this.end;
     }
-    getPiece() {
-        return this.piece;  // a taken piece
+    getTakePiece() {
+        return this.takePiece;
     }
 }

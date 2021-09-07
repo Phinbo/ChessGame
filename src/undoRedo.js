@@ -1,21 +1,23 @@
-import { manager } from "./script.js";
+// SAFE TO DELETE
 
-let redo = document.getElementById("redo");
-let undo = document.getElementById("undo");
+// import { manager } from "./script.js";
 
-undo.addEventListener("click", () => {
-    undoMove();
-});
+// let redo = document.getElementById("redo");
+// let undo = document.getElementById("undo");
 
-redo.addEventListener("click", () => {
-    redoMove();
-});
+// undo.addEventListener("click", () => {
+//     undoMove();
+// });
 
-function undoMove() {
-    manager.undoMove();
-}
+// redo.addEventListener("click", () => {
+//     redoMove();
+// });
 
-function redoMove() {
-    manager.redoMove();
-}
+// function undoMove() {
+//     manager.undoMove();
+// }
+
+// function redoMove() {
+//     manager.redoMove();
+// }
 
