@@ -12,6 +12,22 @@ export default class inputHandler {
         this.manager = manager;
         this.divs = document.getElementsByClassName('chessBoardTile');
 
+        // UNDO AND REDO
+        this.redo = document.getElementById("redo");
+        this.undo = document.getElementById("undo");
+
+        undo.addEventListener("click", () => {
+            manager.undoMove();
+            this.#returnPiece();
+        });
+
+        redo.addEventListener("click", () => {
+            manager.redoMove();
+            this.#returnPiece();
+        });
+
+        // END UNDO REDO
+
         // left click listeners on divs.
         for (let i = 0; i < this.divs.length; i++) {
             let div = this.divs[i];
@@ -63,7 +79,7 @@ export default class inputHandler {
             return;
         }
         this.manager.tryMove(this.holdPosition, tile.getPosition())  // attempt a move (gets true when the piece successfully moves/)
-        this.#returnPiece();  
+        this.#returnPiece();
         return;
     }
 

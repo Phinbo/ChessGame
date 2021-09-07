@@ -15,5 +15,5 @@ This is a personal project of mine. Trying to create something to prove my knowl
 8. Creating starting positions (already possible with fen, but I would like this to be possible using a more natural menu).
 
 ## Known Bugs
-1. When undoing and redoing, the states of pieces is reset, allowing pawns to double jump again. This also complicates the developement of castling, since I can't just check if the king and the rook have moved.
-
+1. When undoing an initial pawn move (for example) the piece forgets that it shouldnt have moved from this position.
+    need to enhance either undo, or hasMoved() to detect when the piece has moved. What happens more? redoing or detecting hasMoved()?
