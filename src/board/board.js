@@ -1,4 +1,4 @@
-import { manager } from "/src/script.js";
+import { manager } from "../script.js";
 
 // THIS CLASS WILL DO THE FOLLOWING AND NO MORE
 
