@@ -24,6 +24,8 @@ export default class Pawn extends ChessPiece {
             moves = moves.concat(moveGen.doubleJump());
         }
 
+        // en passant
+        // FOR NOW WILL ALWAYS CHEKC EN PASSANT if(this.manager.getTile(currPos + 1) || this.manager.getTile(currPos - 1).getPiece().;
         takes = takes.concat(moveGen.enPassant());
 
         // diagonal takes forward
