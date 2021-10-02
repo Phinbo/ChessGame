@@ -212,6 +212,7 @@ export default class ChessStateManager {
     // generate a tile array based on an input FEN string.
     fenGen(FEN) {
         try {
+            this.turn = 'white';
             let output = [];
             let fen = FEN;
             let reg = /^\d+|^[A-Za-z]/;
