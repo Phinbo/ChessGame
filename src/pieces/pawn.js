@@ -13,6 +13,7 @@ export default class Pawn extends ChessPiece {
     generateMoves(currPos) {
         let moves = [];
         let takes = [];
+        let special = [];
 
         let moveGen = new Moves(currPos, this, this.manager);
 
@@ -24,11 +25,12 @@ export default class Pawn extends ChessPiece {
             moves = moves.concat(moveGen.doubleJump());
         }
 
-        takes = takes.concat(moveGen.enPassant());
+        special = special.concat(moveGen.enPassant());
 
         // diagonal takes forward
         takes = takes.concat(moveGen.takeL(1,1));
 
+        this.specialMoves = special;
         this.validMoves = moves;
         this.validTakes = takes;
     }
