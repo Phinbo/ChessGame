@@ -139,7 +139,7 @@ export default class ChessStateManager {
         MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
 
         this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
-        console.log(this.moveHistory[0]);
+        //console.log(this.moveHistory[0]);
 
         this.addFirstMove(this.state[currPos].getPiece());
 
@@ -155,14 +155,13 @@ export default class ChessStateManager {
     }
 
     specialMove(currPos, newPos) {
-        console.log("created special move");
         this.nextTeam();    // change which team moves next;
-        MessageBoard.message("yeet");
         let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
         this.moveHistory.push(myMove);
 
         switch(myMove.getSpecialMove()) {
             case "En Passant":
+                MessageBoard.moveMessage(myMove.getMovePiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), true, "Pawn", " en passant ");
                 this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
                 this.state[currPos].setPiece(null);
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
@@ -290,11 +289,11 @@ export default class ChessStateManager {
         if (!this.firstMoveHistory.includes(piece)) {
             piece.setMoved(true);
             this.firstMoveHistory.push(piece);
-            console.log('piece has NOT moved before');
+            //console.log('piece has NOT moved before');
             return;
         }
         this.firstMoveHistory.push(null);
-        console.log('piece has moved before');
+        //console.log('piece has moved before');
         
     }
     popFirstMove() {
@@ -308,7 +307,7 @@ export default class ChessStateManager {
     //unmove
     undoMove() {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
         if (this.moveHistory.length == 0) {
-            console.log('nothing to undo');
+            //console.log('nothing to undo');
             return;
         }
 
@@ -342,7 +341,7 @@ export default class ChessStateManager {
     }
 
     redoMove() {
-        console.log(this.redoPath);
+        //console.log(this.redoPath);
 
         if (this.redoPath.length == 0) {
             console.log('nothing to redo');

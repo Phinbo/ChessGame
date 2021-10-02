@@ -18,9 +18,13 @@ export default class MessageBoard {
     }
 
     // Display a move message to the screen
-    static moveMessage(piece, startPos, endPos, numCols, numRows, isTake, takenPiece) {
+    static moveMessage(piece, startPos, endPos, numCols, numRows, isTake, takenPiece, altActPhrase) {
         let actionPhrase = " to ";
         if(isTake) { actionPhrase = (" takes " + takenPiece + " "); }
+
+        if(altActPhrase != null) {
+            actionPhrase = (" " + altActPhrase + takenPiece + " ");
+        }
 
         let startCol = (startPos%numCols) + 1;
         let startRow = numRows - (Math.floor(startPos/numRows));
