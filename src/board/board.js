@@ -193,7 +193,7 @@ export default class ChessBoard {
     highlightMoves(currPos) {
         this.manager = manager;
 
-        console.log("highlight");
+        //console.log("highlight");
         let piece = this.manager.getState()[currPos].getPiece();
         piece.generateMoves(currPos);
 
@@ -203,6 +203,7 @@ export default class ChessBoard {
 
         let moves = piece.getValidMoves();
         moves = moves.concat(piece.getValidTakes());
+        moves = moves.concat(piece.getSpecialMoves());
 
         let takes = piece.getValidTakes();
 

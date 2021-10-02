@@ -298,29 +298,29 @@ export default class Moves {
     /////////////////////
 
 
+    // THIS ONLY HANDLES FIGURING OUT WHEN THE MOVE IS POSSIBLE. It still needs help with implementation.
     enPassant() {
         let specials = [];
-
         let potPawnLocs = [];   // potential pawn locations
         if(this.#onSameRow(this.currPos, this.currPos + 1)) {
-            potPawnLocs.add(this.currPos + 1);
+            potPawnLocs.push(this.currPos + 1);
         }
         if(this.#onSameRow(this.currPos, this.currPos - 1)) {
-            potPawnLocs.add(this.currPos - 1);
+            potPawnLocs.push(this.currPos - 1);
         }
 
         // NOW CHECK THE PRESENCE OF PAWNS AT THESE LOCATIONS
         for(let i = 0; i < potPawnLocs.length; i++) {
             let testPiece = this.manager.getTile(potPawnLocs[i]).getPiece();
-            if(testPiece.getName() == "Pawn") {
+            if(testPiece != null && testPiece.getName() == "Pawn") {
                 this.manager.undoMove();
-                if(this.manager.getTile(potPawnLocs[i] + (this.getRows() * 2 * this.piece.getDirection())).getPiece() == testPiece) {
-                    specials.add(potPawnLocs[i] + (this.getRows() * this.piece.getDirection()));
+                if(this.manager.getTile(potPawnLocs[i] + (this.cols * 2 * this.piece.getDirection())).getPiece() == testPiece) {
+                    specials.push(potPawnLocs[i] + (this.cols * this.piece.getDirection()));
+                    // NOTE: this adds the move location... specials could hold objects though maybe?
                 }
+                this.manager.redoMove();
             }
-
-            
         }
-
+        return specials;
     }
 }

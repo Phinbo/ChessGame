@@ -24,6 +24,7 @@ export default class ChessPiece {
   /// SETTERS AND GETTERS ///
   ///////////////////////////
 
+  
   // MOVED
   hasMoved() {
     return this.hasMoved;

@@ -9,6 +9,7 @@ import King from "../pieces/king.js";
 import ChessTile from "./tile.js";
 import MessageBoard from "../messageBoard.js";
 import Move from "../move.js";
+import SpecialMove from "../specialMove.js";
 
 export default class ChessStateManager {
     constructor(board) {
@@ -125,16 +126,21 @@ export default class ChessStateManager {
             this.move(currPos, newPos, true, takeName);
             return true;
         }
+        if (piece.getSpecialMoves().includes(newPos)) {
+            this.specialMove(currPos, newPos);
+        }
         return false;
     }
 
     // move: alter the game state and display the message
-    move(currPos, newPos, isTake, takeName) {
+    move(currPos, newPos, isTake, takeName, doMessage) {
         this.nextTeam();    // change which team moves next;
 
-        MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
+        if (doMessage != false) {
+            MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
+        }
 
-        this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
+        this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()), false);
 
         this.addFirstMove(this.state[currPos].getPiece());
 
@@ -149,6 +155,10 @@ export default class ChessStateManager {
         }
     }
 
+    specialMove(currPos, newPos) {
+        this.nextTeam();    // change which team moves next;
+
+    }
 
     //////////////////////////
     /// GENERATION METHODS /// -- MOVE TO NEW CLASS

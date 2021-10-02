@@ -1,12 +1,10 @@
-// an object that represents a move taken.
-
-export default class Move {
-    constructor(movePiece, start, end, takePiece, specialMove) {
+export default class SpecialMove {
+    constructor(movePiece, start, end) {
         this.movePiece = movePiece;
         this.start = start;
         this.end = end;
-        this.takePiece = takePiece;
-        this.specialMove = specialMove;
+        this.takePiece;
+        this.specialMove;;
     }
     getSpecialMove() {
         return this.specialMove;
