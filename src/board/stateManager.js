@@ -322,15 +322,14 @@ export default class ChessStateManager {
 
 
         if(undo.isSpecial()) {
-
             let type = undo.getSpecialMove();
-
             switch(type) {
                 case "En Passant":
-                    console.log("Here");
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(null);
                     this.state[ undo.getEnd() - (this.board.getColumns()*undo.getMovePiece().getDirection()) ].setPiece(undo.getTakePiece());
+                    break;
+                case "Castle":
                     break;
             }
         }
@@ -358,8 +357,23 @@ export default class ChessStateManager {
 
         this.addFirstMove(redo.getMovePiece());
 
-        this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
-        this.state[redo.getStart()].setPiece(null);
+        if(redo.isSpecial()) {
+            let type = redo.getSpecialMove();
+            switch(type) {
+                case "En Passant":
+                    console.log("Here");
+                    this.state[redo.getEnd()].setPiece(redo.getMovePiece());
+                    this.state[redo.getStart()].setPiece(null);
+                    this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
+                    break;
+                case "Castle":
+                    break;
+            } 
+        }
+        else {
+            this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
+            this.state[redo.getStart()].setPiece(null);
+        }
 
         this.board.update(this.state);
     }
