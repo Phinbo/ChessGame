@@ -312,7 +312,7 @@ export default class Moves {
         // NOW CHECK THE PRESENCE OF PAWNS AT THESE LOCATIONS
         for(let i = 0; i < potPawnLocs.length; i++) {
             let testPiece = this.manager.getTile(potPawnLocs[i]).getPiece();
-            if(testPiece != null && testPiece.getName() == "Pawn") {
+            if(testPiece != null && testPiece.getName() == "Pawn" && this.piece.getColor() != testPiece.getColor()) {
                 this.manager.undoMove();
                 if(this.manager.getTile(potPawnLocs[i] + (this.cols * 2 * this.piece.getDirection())).getPiece() == testPiece) {
                     specials.push(potPawnLocs[i] + (this.cols * this.piece.getDirection()));

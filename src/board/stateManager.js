@@ -121,26 +121,25 @@ export default class ChessStateManager {
             this.move(currPos, newPos, false, null);
             return true;
         }
+        if (piece.getSpecialMoves().includes(newPos)) {
+            this.specialMove(currPos, newPos);
+            return true;
+        }
         if (piece.getValidTakes().includes(newPos)) {   // piece could TAKE at attempted location
             let takeName = this.state[newPos].getPiece().getName();
             this.move(currPos, newPos, true, takeName);
             return true;
         }
-        if (piece.getSpecialMoves().includes(newPos)) {
-            this.specialMove(currPos, newPos);
-        }
         return false;
     }
 
     // move: alter the game state and display the message
-    move(currPos, newPos, isTake, takeName, doMessage) {
+    move(currPos, newPos, isTake, takeName, doQuiet) {
         this.nextTeam();    // change which team moves next;
+        MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
 
-        if (doMessage != false) {
-            MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
-        }
-
-        this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()), false);
+        this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
+        console.log(this.moveHistory[0]);
 
         this.addFirstMove(this.state[currPos].getPiece());
 
@@ -156,7 +155,26 @@ export default class ChessStateManager {
     }
 
     specialMove(currPos, newPos) {
+        console.log("created special move");
         this.nextTeam();    // change which team moves next;
+        MessageBoard.message("yeet");
+        let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
+        this.moveHistory.push(myMove);
+
+        switch(myMove.getSpecialMove()) {
+            case "En Passant":
+                this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
+                this.state[currPos].setPiece(null);
+                this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
+                break;
+        }
+
+        this.board.update(this.state);
+
+        if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
+            MessageBoard.clearRedoPath();
+            this.clearRedoPath();
+        }
 
     }
 
@@ -299,10 +317,27 @@ export default class ChessStateManager {
         this.popFirstMove();
 
         let undo = this.moveHistory.pop();
+
         this.redoPath.push(undo);
 
-        this.state[undo.getStart()].setPiece(undo.getMovePiece()); // set state at a moves start point to the end piece
-        this.state[undo.getEnd()].setPiece(undo.getTakePiece());
+
+        if(undo.isSpecial()) {
+
+            let type = undo.getSpecialMove();
+
+            switch(type) {
+                case "En Passant":
+                    console.log("Here");
+                    this.state[undo.getStart()].setPiece(undo.getMovePiece());
+                    this.state[undo.getEnd()].setPiece(null);
+                    this.state[ undo.getEnd() - (this.board.getColumns()*undo.getMovePiece().getDirection()) ].setPiece(undo.getTakePiece());
+                    break;
+            }
+        }
+        else {
+            this.state[undo.getStart()].setPiece(undo.getMovePiece()); // set state at a moves start point to the end piece
+            this.state[undo.getEnd()].setPiece(undo.getTakePiece());
+        }
 
         this.board.update(this.state);
     }
