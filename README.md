@@ -15,5 +15,4 @@ This is a personal project of mine. Trying to create something to prove my knowl
 8. Creating starting positions (already possible with fen, but I would like this to be possible using a more natural menu).
 
 ## Known Bugs
-1. starting a game, then creating a new one by changing game settings or pressing 'update' does not change whos move is next.
-2. sometimes a pawn can have its "hasMoved" value become inaccurate after some combination of en passant, undoing and redoing.
+1. Sometimes a pawn can have its "hasMoved" value become inaccurate after some combination of en passant, undoing and redoing.
