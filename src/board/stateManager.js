@@ -327,7 +327,8 @@ export default class ChessStateManager {
                 case "En Passant":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(null);
-                    this.state[ undo.getEnd() - (this.board.getColumns()*undo.getMovePiece().getDirection()) ].setPiece(undo.getTakePiece());
+                    let takePos = (undo.getEnd() - (this.board.getColumns()*undo.getMovePiece().getDirection()));
+                    this.state[takePos].setPiece(undo.getTakePiece());
                     break;
                 case "Castle":
                     break;

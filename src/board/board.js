@@ -203,9 +203,14 @@ export default class ChessBoard {
 
         let moves = piece.getValidMoves();
         moves = moves.concat(piece.getValidTakes());
-        moves = moves.concat(piece.getSpecialMoves());
+        //moves = moves.concat(piece.getSpecialMoves());
 
         let takes = piece.getValidTakes();
+        
+        if(piece.getName() == "Pawn") {
+            takes = takes.concat(piece.getSpecialMoves());
+        }
+
 
         // moves and takes
         for (let i = 0; i < moves.length; i++) {
