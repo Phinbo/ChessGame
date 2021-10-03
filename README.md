@@ -3,7 +3,7 @@
 This is a personal project of mine. Trying to create something to prove my knowledge of Javascript, HTML, and CSS.
 
 ## In development
-1. En Passant pawn attacks. 
+1. En Passant pawn attacks. (**DONE**).
 2. Pawn piece changing. 
 3. Castling. 
 4. Check and checkmate detection. 
