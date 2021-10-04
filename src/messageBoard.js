@@ -69,7 +69,7 @@ export default class MessageBoard {
         this.add(toAdd[0], toAdd[1]);
     }
     static clearRedoPath() {
-        console.log('clearpath');
+        //console.log('clearpath');
         for(let i = 0; i < this.redoPath.length; i++) {
             this.redoPath[i][0].remove();
             this.redoPath[i][1].remove();

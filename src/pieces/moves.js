@@ -309,7 +309,7 @@ export default class Moves {
             potPawnLocs.push(this.currPos - 1);
         }
 
-        // NOW CHECK THE PRESENCE OF PAWNS AT THESE LOCATIONS
+        // NOW CHECK THE PRESENCE OF PAWNS AT THESE LOCATIONS --- also check they just made a double jump
         for(let i = 0; i < potPawnLocs.length; i++) {
             let testPiece = this.manager.getTile(potPawnLocs[i]).getPiece();
             if(testPiece != null && testPiece.getName() == "Pawn" && this.piece.getColor() != testPiece.getColor()) {
@@ -319,6 +319,54 @@ export default class Moves {
                     // NOTE: this adds the move location... specials could hold objects though maybe?
                 }
                 this.manager.redoMove();
+            }
+        }
+        return specials;
+    }
+
+    castle() {
+        let specials = [];
+        let potRookLocs = []; /// +3 or -4 to king's current position (check on same row!)
+
+        // cant castle if king has moved.
+        console.log(this.piece);
+        // if(this.piece.hasMoved()) {
+        //     return specials;
+        // }
+
+        // GIGA-JANK: THESE SHOULD BE IN THEIR OWN METHODS THAT RETURN NOTHING UPON FAILURE
+        // THESE FOR LOOPS CHECK THAT THERE ARE NO TILES UP TO THE POT ROOK LOCATION
+        for(let i = 1; i < 3; i++) {
+            if(this.manager.getTile(this.currPos + i).getPiece() != null) {
+                console.log("broke right, at " + (this.currPos + i));
+                break;
+            }
+            if(i == 2 && this.#onSameRow(this.currPos, this.currPos + 3)) {    // if on last loop
+                potRookLocs.push(this.currPos + 3)
+            }
+        }
+        for(let i = 1; i > 4; i++){
+            if(this.manager.getTile(this.currPos - i).getPiece() != null) {
+                console.log("broke left");
+                break;
+            }
+            if(i == -3 && this.#onSameRow(this.currPos, this.currPos - 4)) {    // if on last loop
+                potRookLocs.push(this.currPos - 4)
+            }
+        }
+
+        // check for rooks at these locs
+        for(let i = 0; i < potRookLocs.length; i++) {
+            let testPos = potRookLocs[i];
+            let Rpiece = this.manager.getTile(testPos).getPiece();
+            if(Rpiece != null && Rpiece.getName() == "Rook" && Rpiece.getColor() == this.piece.getColor() && !Rpiece.getMoved()) {
+                if(testPos > this.currPos) {
+                    specials.push(this.currPos + 2);
+                    console.log("did it!");
+                }
+                else {
+                    specials.push(this.currPos - 2);
+                }
             }
         }
         return specials;

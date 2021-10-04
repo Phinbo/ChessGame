@@ -26,7 +26,7 @@ export default class ChessPiece {
 
   
   // MOVED
-  hasMoved() {
+  getMoved() {
     return this.hasMoved;
   }
   setMoved(bool) {

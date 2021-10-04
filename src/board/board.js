@@ -207,8 +207,12 @@ export default class ChessBoard {
 
         let takes = piece.getValidTakes();
         
+        let specials = piece.getSpecialMoves();
         if(piece.getName() == "Pawn") {
             takes = takes.concat(piece.getSpecialMoves());
+        }
+        if(piece.getName() == "King") {
+            moves = moves.concat(piece.getSpecialMoves());
         }
 
 
@@ -238,6 +242,7 @@ export default class ChessBoard {
             let div = this.highlighted[i];
             div.className = div.className.replace(' highTile', '');
             div.className = div.className.replace(' underAttack', '');
+            div.className = div.className.replace(' specialHighlight', '');
         }
     }
 

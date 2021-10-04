@@ -116,13 +116,13 @@ export default class ChessStateManager {
             return false;
         }
         let piece = this.state[currPos].getPiece();
-
-        if (piece.getValidMoves().includes(newPos)) {   // piece could MOVE to attempted location
-            this.move(currPos, newPos, false, null);
-            return true;
-        }
+        
         if (piece.getSpecialMoves().includes(newPos)) {
             this.specialMove(currPos, newPos);
+            return true;
+        }
+        if (piece.getValidMoves().includes(newPos)) {   // piece could MOVE to attempted location
+            this.move(currPos, newPos, false, null);
             return true;
         }
         if (piece.getValidTakes().includes(newPos)) {   // piece could TAKE at attempted location
