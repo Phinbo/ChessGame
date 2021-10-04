@@ -8,6 +8,9 @@ export default class Move {
         this.takePiece = takePiece;
 
     }
+    isSpecial() {
+        return false;
+    }
     getMovePiece() {
         return this.movePiece;
     }

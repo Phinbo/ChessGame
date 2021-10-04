@@ -9,6 +9,7 @@ import King from "../pieces/king.js";
 import ChessTile from "./tile.js";
 import MessageBoard from "../messageBoard.js";
 import Move from "../move.js";
+import SpecialMove from "../specialMove.js";
 
 export default class ChessStateManager {
     constructor(board) {
@@ -115,7 +116,11 @@ export default class ChessStateManager {
             return false;
         }
         let piece = this.state[currPos].getPiece();
-
+        
+        if (piece.getSpecialMoves().includes(newPos)) {
+            this.specialMove(currPos, newPos);
+            return true;
+        }
         if (piece.getValidMoves().includes(newPos)) {   // piece could MOVE to attempted location
             this.move(currPos, newPos, false, null);
             return true;
@@ -129,14 +134,14 @@ export default class ChessStateManager {
     }
 
     // move: alter the game state and display the message
-    move(currPos, newPos, isTake, takeName) {
+    move(currPos, newPos, isTake, takeName, doQuiet) {
         this.nextTeam();    // change which team moves next;
-
         MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
 
         this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
-
+        //console.log(this.moveHistory[0]);
         this.addFirstMove(this.state[currPos].getPiece());
+
 
         this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
         this.state[currPos].setPiece(null);                             // the current position (old position) has its piece set to null.
@@ -149,6 +154,46 @@ export default class ChessStateManager {
         }
     }
 
+    specialMove(currPos, newPos) {
+        this.nextTeam();    // change which team moves next;
+        let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
+
+        this.moveHistory.push(myMove);
+        this.addFirstMove(this.state[currPos].getPiece());  // could cause issues with undo redo?? I may have imagined that...
+
+        switch(myMove.getSpecialMove()) {
+            case "En Passant":
+                MessageBoard.moveMessage(myMove.getMovePiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), true, "Pawn", " en passant ");
+                this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
+                this.state[currPos].setPiece(null);
+                this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
+                break;
+            case "Castle":
+                MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, null, " castle ");
+                this.state[newPos].setPiece(this.state[currPos].getPiece());
+                this.state[currPos].setPiece(null);
+                let rookPos;
+                let newRookPos;
+                if(newPos > currPos) {
+                    rookPos = currPos + 3;
+                    newRookPos = currPos + 1;
+                }
+                else {
+                    rookPos = currPos - 4;
+                    newRookPos = currPos - 1;
+                }
+                this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
+                this.state[rookPos].setPiece(null);
+        }
+
+        this.board.update(this.state);
+
+        if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
+            MessageBoard.clearRedoPath();
+            this.clearRedoPath();
+        }
+
+    }
 
     //////////////////////////
     /// GENERATION METHODS /// -- MOVE TO NEW CLASS
@@ -185,6 +230,7 @@ export default class ChessStateManager {
     // generate a tile array based on an input FEN string.
     fenGen(FEN) {
         try {
+            this.turn = 'white';
             let output = [];
             let fen = FEN;
             let reg = /^\d+|^[A-Za-z]/;
@@ -262,11 +308,11 @@ export default class ChessStateManager {
         if (!this.firstMoveHistory.includes(piece)) {
             piece.setMoved(true);
             this.firstMoveHistory.push(piece);
-            console.log('piece has NOT moved before');
+            //console.log('piece has NOT moved before');
             return;
         }
         this.firstMoveHistory.push(null);
-        console.log('piece has moved before');
+        //console.log('piece has moved before');
         
     }
     popFirstMove() {
@@ -280,7 +326,7 @@ export default class ChessStateManager {
     //unmove
     undoMove() {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
         if (this.moveHistory.length == 0) {
-            console.log('nothing to undo');
+            //console.log('nothing to undo');
             return;
         }
 
@@ -289,16 +335,51 @@ export default class ChessStateManager {
         this.popFirstMove();
 
         let undo = this.moveHistory.pop();
+
         this.redoPath.push(undo);
 
-        this.state[undo.getStart()].setPiece(undo.getMovePiece()); // set state at a moves start point to the end piece
-        this.state[undo.getEnd()].setPiece(undo.getTakePiece());
+
+        if(undo.isSpecial()) {
+            let type = undo.getSpecialMove();
+            switch(type) {
+                case "En Passant":
+                    this.state[undo.getStart()].setPiece(undo.getMovePiece());
+                    this.state[undo.getEnd()].setPiece(null);
+                    let takePos = (undo.getEnd() - (this.board.getColumns()*undo.getMovePiece().getDirection()));
+                    this.state[takePos].setPiece(undo.getTakePiece());
+                    break;
+                case "Castle":
+                    this.state[undo.getStart()].setPiece(undo.getMovePiece());
+                    this.state[undo.getEnd()].setPiece(null);
+
+                    let rookPos;
+                    let oldRookPos;
+
+                    let currPos = undo.getStart();
+
+                    if(undo.getEnd() > undo.getStart()) {
+                        rookPos = currPos + 1;
+                        oldRookPos = currPos + 3;
+                    }
+                    else {
+                        rookPos = currPos - 1;
+                        oldRookPos = currPos - 4;
+                    }
+                    this.state[oldRookPos].setPiece(this.state[rookPos].getPiece());
+                    this.state[rookPos].setPiece(null);
+                    break;
+            }
+        }
+        else {
+            this.state[undo.getStart()].setPiece(undo.getMovePiece()); // set state at a moves start point to the end piece
+            this.state[undo.getEnd()].setPiece(undo.getTakePiece());
+        }
 
         this.board.update(this.state);
     }
 
     redoMove() {
-        console.log(this.redoPath);
+        //console.log(this.redoPath);
 
         if (this.redoPath.length == 0) {
             console.log('nothing to redo');
@@ -313,8 +394,40 @@ export default class ChessStateManager {
 
         this.addFirstMove(redo.getMovePiece());
 
-        this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
-        this.state[redo.getStart()].setPiece(null);
+        if(redo.isSpecial()) {
+            let type = redo.getSpecialMove();
+            switch(type) {
+                case "En Passant":
+                    console.log("Here");
+                    this.state[redo.getEnd()].setPiece(redo.getMovePiece());
+                    this.state[redo.getStart()].setPiece(null);
+                    this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
+                    break;
+                case "Castle":
+                    this.state[redo.getStart()].setPiece(null);
+                    this.state[redo.getEnd()].setPiece(redo.getMovePiece()); // why doesnt this work?
+
+                    let rookPos;
+                    let newRookPos;
+                    let currPos = redo.getStart();
+
+                    if(redo.getEnd() > currPos) {
+                        rookPos = currPos + 3;
+                        newRookPos = currPos + 1;
+                    }
+                    else {
+                        rookPos = currPos - 4;
+                        newRookPos = currPos - 1;
+                    }
+                    this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
+                    this.state[rookPos].setPiece(null);
+                    break;
+            } 
+        }
+        else {  // normal move
+            this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
+            this.state[redo.getStart()].setPiece(null);
+        }
 
         this.board.update(this.state);
     }

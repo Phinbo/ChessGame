@@ -11,6 +11,7 @@ export default class King extends ChessPiece {
     generateMoves(currPos) {
         let moves = [];
         let takes = [];
+        let specials = [];
         let moveGen = new Moves(currPos, this, this.manager);
 
         // Vertical Step/Take
@@ -29,7 +30,13 @@ export default class King extends ChessPiece {
         takes = takes.concat(moveGen.takeL(1, 1));
         takes = takes.concat(moveGen.takeL(1,-1));
 
+        // Castle
+        if(this.hasMoved == false) {
+            specials = specials.concat(moveGen.castle());
+        }
+
         this.validMoves = moves;
         this.validTakes = takes;
+        this.specialMoves = specials;
     }
 }

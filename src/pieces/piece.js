@@ -13,6 +13,7 @@ export default class ChessPiece {
     this.name;
     this.validMoves = [];
     this.validTakes = [];
+    this.specialMoves = [];
     this.hasMoved = false;
     this.className;
     this.direction = this.direction();
@@ -23,39 +24,63 @@ export default class ChessPiece {
   /// SETTERS AND GETTERS ///
   ///////////////////////////
 
-  hasMoved() {
+  
+  // MOVED
+  getMoved() {
     return this.hasMoved;
   }
   setMoved(bool) {
     this.hasMoved = bool;
   }
+
+  // CLASSNAME
   getClassName() {
     return this.className;
   }
+
+  //NAME
   getName() {
     return this.name;
   }
+
+  // TEAM COLOR
   setColor(color) {
     this.color = color;
   }
   getColor() {
     return this.color;
   }
+
+  // TAG
   getTag() {
     return this.tag;
   }
+
+  // SPECIAL MOVES
+  getSpecialMoves() {
+    return this.specialMoves;
+  }
+  setSpecialMoves(moves) {
+    this.specialMoves = moves;
+  }
+
+  // VALIDMOVES
   getValidMoves() {
     return this.validMoves;
   }
   setValidMoves(moves) {
     this.validMoves = moves;
   }
+
+  // VALIDTAKES
   getValidTakes() {
     return this.validTakes;
   }
   setValidTakes(takes) {
     this.validTakes = takes;
   }
+
+  // DIRECTION
   getDirection() {
     return this.direction;
   }
@@ -65,11 +90,13 @@ export default class ChessPiece {
   /// ABSTRACT METHODS ///
   ////////////////////////
 
-  // puts moves in 'validMoves' and takes in 'takes'
+
+  // GENERATE MOVES
   generateMoves() {
     throw new Error("generateMoves() must be implemented.")
   }
 
+  // DIRECTION
   direction() {
     switch (this.color) {
         case 'black':

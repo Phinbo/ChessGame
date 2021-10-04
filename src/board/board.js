@@ -193,7 +193,7 @@ export default class ChessBoard {
     highlightMoves(currPos) {
         this.manager = manager;
 
-        console.log("highlight");
+        //console.log("highlight");
         let piece = this.manager.getState()[currPos].getPiece();
         piece.generateMoves(currPos);
 
@@ -203,8 +203,17 @@ export default class ChessBoard {
 
         let moves = piece.getValidMoves();
         moves = moves.concat(piece.getValidTakes());
+        //moves = moves.concat(piece.getSpecialMoves());
 
         let takes = piece.getValidTakes();
+        
+        //let specials = piece.getSpecialMoves();
+        if(piece.getName() == "Pawn") {
+            takes = takes.concat(piece.getSpecialMoves());
+        }
+        if(piece.getName() == "King") {
+            moves = moves.concat(piece.getSpecialMoves());
+        }
 
         // moves and takes
         for (let i = 0; i < moves.length; i++) {
@@ -224,7 +233,6 @@ export default class ChessBoard {
             }
         }
         //this.board.update(this.state);
-
     }
     // MOVE TO BOARD
     unhighlight() {
@@ -232,6 +240,7 @@ export default class ChessBoard {
             let div = this.highlighted[i];
             div.className = div.className.replace(' highTile', '');
             div.className = div.className.replace(' underAttack', '');
+            //div.className = div.className.replace(' specialHighlight', '');
         }
     }
 

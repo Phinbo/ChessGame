@@ -18,9 +18,13 @@ export default class MessageBoard {
     }
 
     // Display a move message to the screen
-    static moveMessage(piece, startPos, endPos, numCols, numRows, isTake, takenPiece) {
+    static moveMessage(piece, startPos, endPos, numCols, numRows, isTake, takenPiece, altActPhrase) {
         let actionPhrase = " to ";
         if(isTake) { actionPhrase = (" takes " + takenPiece + " "); }
+
+        if(altActPhrase != null) {
+            actionPhrase = (" " + altActPhrase + takenPiece + " ");
+        }
 
         let startCol = (startPos%numCols) + 1;
         let startRow = numRows - (Math.floor(startPos/numRows));
@@ -65,7 +69,7 @@ export default class MessageBoard {
         this.add(toAdd[0], toAdd[1]);
     }
     static clearRedoPath() {
-        console.log('clearpath');
+        //console.log('clearpath');
         for(let i = 0; i < this.redoPath.length; i++) {
             this.redoPath[i][0].remove();
             this.redoPath[i][1].remove();
