@@ -328,13 +328,7 @@ export default class Moves {
         let specials = [];
         let potRookLocs = []; /// +3 or -4 to king's current position (check on same row!)
 
-        // cant castle if king has moved.
-        console.log(this.piece);
-        // if(this.piece.hasMoved()) {
-        //     return specials;
-        // }
-
-        // GIGA-JANK: THESE SHOULD BE IN THEIR OWN METHODS THAT RETURN NOTHING UPON FAILURE
+        // CRINGE CODE ALERT: THESE SHOULD BE IN THEIR OWN METHODS.
         // THESE FOR LOOPS CHECK THAT THERE ARE NO TILES UP TO THE POT ROOK LOCATION
         for(let i = 1; i < 3; i++) {
             if(this.manager.getTile(this.currPos + i).getPiece() != null) {
@@ -345,12 +339,12 @@ export default class Moves {
                 potRookLocs.push(this.currPos + 3)
             }
         }
-        for(let i = 1; i > 4; i++){
+        for(let i = 1; i < 4; i++){
             if(this.manager.getTile(this.currPos - i).getPiece() != null) {
                 console.log("broke left");
                 break;
             }
-            if(i == -3 && this.#onSameRow(this.currPos, this.currPos - 4)) {    // if on last loop
+            if(i == 3 && this.#onSameRow(this.currPos, this.currPos - 4)) {    // if on last loop
                 potRookLocs.push(this.currPos - 4)
             }
         }
@@ -362,10 +356,11 @@ export default class Moves {
             if(Rpiece != null && Rpiece.getName() == "Rook" && Rpiece.getColor() == this.piece.getColor() && !Rpiece.getMoved()) {
                 if(testPos > this.currPos) {
                     specials.push(this.currPos + 2);
-                    console.log("did it!");
+                    console.log("did right");
                 }
                 else {
                     specials.push(this.currPos - 2);
+                    console.log("did left");
                 }
             }
         }

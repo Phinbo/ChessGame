@@ -140,8 +140,8 @@ export default class ChessStateManager {
 
         this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
         //console.log(this.moveHistory[0]);
-
         this.addFirstMove(this.state[currPos].getPiece());
+
 
         this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
         this.state[currPos].setPiece(null);                             // the current position (old position) has its piece set to null.
@@ -157,7 +157,9 @@ export default class ChessStateManager {
     specialMove(currPos, newPos) {
         this.nextTeam();    // change which team moves next;
         let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
+
         this.moveHistory.push(myMove);
+        this.addFirstMove(this.state[currPos].getPiece());
 
         switch(myMove.getSpecialMove()) {
             case "En Passant":
@@ -166,6 +168,22 @@ export default class ChessStateManager {
                 this.state[currPos].setPiece(null);
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 break;
+            case "Castle":
+                MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, null, " castle ");
+                this.state[newPos].setPiece(this.state[currPos].getPiece());
+                this.state[currPos].setPiece(null);
+                let rookPos;
+                let newRookPos;
+                if(newPos > currPos) {
+                    rookPos = currPos + 3;
+                    newRookPos = currPos + 1;
+                }
+                else {
+                    rookPos = currPos - 4;
+                    newRookPos = currPos - 1;
+                }
+                this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
+                this.state[rookPos].setPiece(null);
         }
 
         this.board.update(this.state);
