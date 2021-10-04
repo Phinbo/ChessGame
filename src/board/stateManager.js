@@ -159,7 +159,7 @@ export default class ChessStateManager {
         let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
 
         this.moveHistory.push(myMove);
-        this.addFirstMove(this.state[currPos].getPiece());
+        this.addFirstMove(this.state[currPos].getPiece());  // could cause issues with undo redo?? I may have imagined that...
 
         switch(myMove.getSpecialMove()) {
             case "En Passant":
