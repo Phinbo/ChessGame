@@ -349,6 +349,24 @@ export default class ChessStateManager {
                     this.state[takePos].setPiece(undo.getTakePiece());
                     break;
                 case "Castle":
+                    this.state[undo.getStart()].setPiece(undo.getMovePiece());
+                    this.state[undo.getEnd()].setPiece(null);
+
+                    let rookPos;
+                    let oldRookPos;
+
+                    let currPos = undo.getStart();
+
+                    if(undo.getEnd() > undo.getStart()) {
+                        rookPos = currPos + 1;
+                        oldRookPos = currPos + 3;
+                    }
+                    else {
+                        rookPos = currPos - 1;
+                        oldRookPos = currPos - 4;
+                    }
+                    this.state[oldRookPos].setPiece(this.state[rookPos].getPiece());
+                    this.state[rookPos].setPiece(null);
                     break;
             }
         }
@@ -386,10 +404,27 @@ export default class ChessStateManager {
                     this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
                     break;
                 case "Castle":
+                    this.state[redo.getStart()].setPiece(null);
+                    this.state[redo.getEnd()].setPiece(redo.getMovePiece()); // why doesnt this work?
+
+                    let rookPos;
+                    let newRookPos;
+                    let currPos = redo.getStart();
+
+                    if(redo.getEnd() > currPos) {
+                        rookPos = currPos + 3;
+                        newRookPos = currPos + 1;
+                    }
+                    else {
+                        rookPos = currPos - 4;
+                        newRookPos = currPos - 1;
+                    }
+                    this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
+                    this.state[rookPos].setPiece(null);
                     break;
             } 
         }
-        else {
+        else {  // normal move
             this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
             this.state[redo.getStart()].setPiece(null);
         }
