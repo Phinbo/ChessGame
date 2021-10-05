@@ -33,13 +33,16 @@ export default class Pawn extends ChessPiece {
 
         // FINAL ROW SHIT
         // check all positions in special, takes,and moves, if any of them have positions on the last row, add it to this new special move.
-        // let allPossible = takes.concat(moves);
-        // let maxRow = this.manager.getBoard().getColumns();
-        // for(let i = 0; i < allPossible.length; i++) {
-        //     if() {
-                
-        //     }
-        // }
+        let allPossible = takes.concat(moves);
+        let last = (this.manager.getBoard().getColumns() * this.manager.getBoard().getRows()) - 1;  // last position
+        for(let i = 0; i < allPossible.length; i++) {
+            if(this.manager.getRow(allPossible[i]) == this.manager.getRow(last)) {
+                special.push(allPossible[i]);   // black piece made it to end.
+            }
+            else if (this.manager.getRow(allPossible[i]) == this.manager.getRow(0)) {
+                special.push(allPossible[i]);   // white piece made it to end
+            }
+        }
 
 
         this.specialMoves = special;
