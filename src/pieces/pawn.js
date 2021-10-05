@@ -27,8 +27,15 @@ export default class Pawn extends ChessPiece {
 
         special = special.concat(moveGen.enPassant());
 
+        
         // diagonal takes forward
         takes = takes.concat(moveGen.takeL(1,1));
+
+        // FINAL ROW SHIT
+        // check all positions in special, takes,and moves, if any of them have positions on the last row, add it to this new special move.
+        if(this.manager.getBoard().getRows()) {
+
+        }
 
         this.specialMoves = special;
         this.validMoves = moves;
