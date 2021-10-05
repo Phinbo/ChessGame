@@ -169,7 +169,7 @@ export default class ChessStateManager {
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 break;
             case "Castle":
-                MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, null, " castle ");
+                MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, "", " castle ");
                 this.state[newPos].setPiece(this.state[currPos].getPiece());
                 this.state[currPos].setPiece(null);
                 let rookPos;
