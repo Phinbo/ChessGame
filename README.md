@@ -5,7 +5,7 @@ This is a personal project of mine. Trying to create something to prove my knowl
 ## In development
 1. En Passant pawn attacks. (**DONE**).
 2. Pawn piece changing. 
-3. Castling. 
+3. Castling. (**DONE**)
 4. Check and checkmate detection. 
 5. Undo and Redo (**DONE**). 
 6. Alternate Win condition settings:
@@ -15,4 +15,4 @@ This is a personal project of mine. Trying to create something to prove my knowl
 8. Creating starting positions (already possible with fen, but I would like this to be possible using a more natural menu).
 
 ## Known Bugs
-1. Sometimes a pawn can have its "hasMoved" value become inaccurate after some combination of en passant, undoing and redoing.
+1. All bugs addressed.
