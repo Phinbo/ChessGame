@@ -168,6 +168,9 @@ export default class ChessStateManager {
                 this.state[currPos].setPiece(null);
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 break;
+            case "Pawn Change":
+                this.doPawnChange();
+                break;
             case "Castle":
                 MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, "", " castle ");
                 this.state[newPos].setPiece(this.state[currPos].getPiece());

@@ -290,7 +290,7 @@ hr {
 }
 
 #pawnChangePage {
-
+    display: none;
     position: fixed;
 
     left: 50%;

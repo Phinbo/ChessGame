@@ -29,11 +29,15 @@ export default class SpecialMove {
     isSpecial() {
         return true;
     }
-
     #determineType() {
         let name = this.movePiece.getName();
         switch(name) {
             case "Pawn":
+                if((this.manager.getRow(this.manager.getBoard()*this.manager.getRow()) - 1) == this.manager.getRow(this.end) || this.manager.getRow(0) == this.manager.getRow(this.end)) {
+                    console.log("Detected a pawn change move");
+                    return "Pawn Change";
+                    // THIS CURRENTLY DOES NOT WORK FOR BLACK PIECES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                }
                 return "En Passant";
             case "King":
                 return "Castle";
