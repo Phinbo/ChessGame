@@ -1,5 +1,5 @@
 # ChessGame
-
+[Click Here!](https://phinziegler.github.io/ChessGame/)<br>
 This is a personal project of mine. Trying to create something to prove my knowledge of Javascript, HTML, and CSS.
 
 ## In development
