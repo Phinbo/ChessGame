@@ -1,5 +1,5 @@
 # ChessGame
-
+[Click Here!](https://phinziegler.github.io/ChessGame/)<br>
 This is a personal project of mine. Trying to create something to prove my knowledge of Javascript, HTML, and CSS.
 
 ## In development
@@ -15,4 +15,4 @@ This is a personal project of mine. Trying to create something to prove my knowl
 8. Creating starting positions (already possible with fen, but I would like this to be possible using a more natural menu).
 
 ## Known Bugs
-1. All bugs addressed.
+1. Currently, the implementation of pawn upgrading is breaking the ability for pawns to move into the last row.
