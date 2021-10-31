@@ -16,3 +16,4 @@ This is a personal project of mine. Trying to create something to prove my knowl
 
 ## Known Bugs
 1. Currently, the implementation of pawn upgrading is breaking the ability for pawns to move into the last row.
+2. Undo and Redo not working properly on abnormal board size. Example is "kn/pp/2/2/2/2/PP/KN." Special moves work fine, but normal moves reset the board on undo, and go back to previous state on redo, instead of only undoing and redoing single moves.
