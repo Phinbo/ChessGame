@@ -170,7 +170,7 @@ export default class ChessStateManager {
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 break;
             case "Pawn Change":
-                let newPiece = this.board.doPawnChange(this.state[currPos].getColor());  // RETURNS THE SELECTED NEW PIECE.
+                let newPiece = this.board.doPawnChange(this.state[currPos].getPiece().getColor());  // RETURNS THE SELECTED NEW PIECE.
                 
                 break;
             case "Castle":
