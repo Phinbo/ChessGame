@@ -154,6 +154,7 @@ export default class ChessStateManager {
         }
     }
 
+    // SPECIAL MOVES:: SHOULD BE REFACTORED INTO NEW CLASS OR MULTIPLE CLASSES
     specialMove(currPos, newPos) {
         this.nextTeam();    // change which team moves next;
         let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
@@ -169,7 +170,8 @@ export default class ChessStateManager {
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 break;
             case "Pawn Change":
-                this.doPawnChange();
+                let newPiece = this.board.doPawnChange(this.state[currPos].getColor());  // RETURNS THE SELECTED NEW PIECE.
+                
                 break;
             case "Castle":
                 MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, "", " castle ");

@@ -1,3 +1,7 @@
+import Bishop from "../pieces/bishop.js";
+import Knight from "../pieces/knight.js";
+import Queen from "../pieces/queen.js";
+import Rook from "../pieces/rook.js";
 import { manager } from "../script.js";
 
 // THIS CLASS WILL DO THE FOLLOWING AND NO MORE
@@ -261,6 +265,34 @@ export default class ChessBoard {
             else {  // no piece
                 textElement.className = '';
             }
+        }
+    }
+
+    // PAWN CHANGE DISPLAY:
+    doPawnChange(color) {
+        let pawnPage = document.getElementById("pawnChangePage");
+        pawnPage.style.display = "block";
+
+        let pawnOptions = Array.from(document.querySelectorAll(".classChangeElement"));
+        for(let i = 0; i < pawnOptions.length; i++) {
+            pawnOptions[i].addEventListener("click", () => {
+                this.manager.getChangePiece(pawnOptions[i]);
+            });
+        }
+    }
+    #getChangePiece(id, color) {
+        switch(id) {
+            case "QSelect":
+                return new Queen(color, this.manager);
+            case "BSelect":
+                return new Bishop(color, this.manager);
+            case "KnSelect":
+                return new Knight(color, this.manager);
+            case "RSelect":
+                return new Rook(color, this.manager);
+            default:
+                console.log(new Error("Wrong ID input for getChangePiece()"));
+                return null;
         }
     }
 }
