@@ -4,7 +4,7 @@ This is a personal project of mine. Trying to create something to prove my knowl
 
 ## In development
 1. En Passant pawn attacks. (**DONE**).
-2. Pawn piece changing. 
+2. Pawn piece changing (undo and redo not yet complete). 
 3. Castling. (**DONE**)
 4. Check and checkmate detection. 
 5. Undo and Redo (**DONE**). 
@@ -13,7 +13,9 @@ This is a personal project of mine. Trying to create something to prove my knowl
     2. Elimination
     3. Pawn journey
 8. Creating starting positions (already possible with fen, but I would like this to be possible using a more natural menu).
+9. Custom Colors OR a list of presets to choose from.
+10. Audio Queues for moves, and/or music?
 
 ## Known Bugs
-1. Currently, the implementation of pawn upgrading is breaking the ability for pawns to move into the last row.
-2. Undo and Redo not working properly on abnormal board size. Example is "kn/pp/2/2/2/2/PP/KN." Special moves work fine, but normal moves reset the board on undo, and go back to previous state on redo, instead of only undoing and redoing single moves.
+1. Undo and Redo not working properly on abnormal board size. Example is "kn/pp/2/2/2/2/PP/KN." Special moves work fine, but normal moves reset the board on undo, and go back to previous state on redo, instead of only undoing and redoing single moves.
+2. Pawns able to move into the final row highlight in the "take piece" color even when not taking a piece at that location.
