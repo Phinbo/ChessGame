@@ -210,7 +210,8 @@ export default class ChessBoard {
         
         //let specials = piece.getSpecialMoves();
         if(piece.getName() == "Pawn") {
-            takes = takes.concat(piece.getSpecialMoves());
+            takes = takes.concat(piece.getEnPassant());
+            moves = moves.concat(piece.getUpgrade());
         }
         if(piece.getName() == "King") {
             moves = moves.concat(piece.getSpecialMoves());
@@ -235,7 +236,6 @@ export default class ChessBoard {
         }
         //this.board.update(this.state);
     }
-    // MOVE TO BOARD
     unhighlight() {
         for (let i = 0; i < this.highlighted.length; i++) {
             let div = this.highlighted[i];
