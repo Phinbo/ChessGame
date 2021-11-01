@@ -267,32 +267,4 @@ export default class ChessBoard {
             }
         }
     }
-
-    // PAWN CHANGE DISPLAY:
-    doPawnChange(color) {
-        let pawnPage = document.getElementById("pawnChangePage");
-        pawnPage.style.display = "block";
-
-        let pawnOptions = Array.from(document.querySelectorAll(".classChangeElement"));
-        for(let i = 0; i < pawnOptions.length; i++) {
-            pawnOptions[i].addEventListener("click", () => {
-                this.manager.getChangePiece(pawnOptions[i]);
-            });
-        }
-    }
-    #getChangePiece(id, color) {
-        switch(id) {
-            case "QSelect":
-                return new Queen(color, this.manager);
-            case "BSelect":
-                return new Bishop(color, this.manager);
-            case "KnSelect":
-                return new Knight(color, this.manager);
-            case "RSelect":
-                return new Rook(color, this.manager);
-            default:
-                console.log(new Error("Wrong ID input for getChangePiece()"));
-                return null;
-        }
-    }
 }

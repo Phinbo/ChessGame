@@ -1,10 +1,11 @@
 
 export default class SpecialMove {
-    constructor(movePiece, start, end, manager) {
+    constructor(movePiece, start, end, manager, upgrade) {
         this.manager = manager;
         this.movePiece = movePiece;
         this.start = start;
         this.end = end;
+        this.upgrade = upgrade;
         this.specialMove = this.#determineType();   // needs to be calculated
         this.takePiece = this.#determineTake();     // needs to be calculated
     }
@@ -25,6 +26,9 @@ export default class SpecialMove {
     }
     getManager() {
         return this.manager;
+    }
+    getUpgrade() {
+        return this.upgrade;
     }
     isSpecial() {
         return true;

@@ -18,7 +18,7 @@ export default class ChessStateManager {
         this.board = board;
 
         this.firstMoveHistory = [];
-        
+
         this.moveHistory = []; // {currPos, endPos, pieceTaken};
         this.redoPath = [];     // stack holding redoPath
 
@@ -67,12 +67,18 @@ export default class ChessStateManager {
         //console.log(index + " is in column " + col);
         return col; // return the index of the column
     }
+    getMoveHistory() {
+        return this.moveHistory;
+    }
+    getRedoPath() {
+        return this.redoPath;
+    }
 
 
     ///////////////////////
     /// OTHER UTILITIES /// 
     ///////////////////////
-    
+
     pieceTurn(index) {   // returns true when the selected tile belongs to the team whos turn it is to move.
         if (this.state[index].getPiece().getColor() == this.turn) {
             return true;
@@ -116,7 +122,7 @@ export default class ChessStateManager {
             return false;
         }
         let piece = this.state[currPos].getPiece();
-        
+
         if (piece.getSpecialMoves().includes(newPos)) {
             this.specialMove(currPos, newPos);
             return true;
@@ -147,7 +153,7 @@ export default class ChessStateManager {
         this.state[currPos].setPiece(null);                             // the current position (old position) has its piece set to null.
 
         this.board.update(this.state);
-        
+
         if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
             MessageBoard.clearRedoPath();
             this.clearRedoPath();
@@ -155,31 +161,99 @@ export default class ChessStateManager {
     }
 
     // SPECIAL MOVES:: SHOULD BE REFACTORED INTO NEW CLASS OR MULTIPLE CLASSES
+    // right now this is quite literally the worst code I have ever written in my entire life. I am embarrasses that it exists.
     specialMove(currPos, newPos) {
         this.nextTeam();    // change which team moves next;
-        let myMove = new SpecialMove(this.state[currPos].getPiece(),currPos, newPos, this);
-
-        this.moveHistory.push(myMove);
         this.addFirstMove(this.state[currPos].getPiece());  // could cause issues with undo redo?? I may have imagined that...
+        let myMove = new SpecialMove(this.state[currPos].getPiece(), currPos, newPos, this);
 
-        switch(myMove.getSpecialMove()) {
+        switch (myMove.getSpecialMove()) {
             case "En Passant":
+                this.moveHistory.push(myMove);
+
                 MessageBoard.moveMessage(myMove.getMovePiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), true, "Pawn", " en passant ");
                 this.state[newPos].setPiece(this.state[currPos].getPiece());    // new position gets its piece set to the same as the current
                 this.state[currPos].setPiece(null);
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
+                endMove(this);
                 break;
-            case "Pawn Change":
-                let newPiece = this.board.doPawnChange(this.state[currPos].getPiece().getColor());  // RETURNS THE SELECTED NEW PIECE.
-                
+            case "Pawn Change":     // THIS SECTION in particular is FILTHY to look at. Its awful and hacky and it needs to be fixed.
+
+                //////////////////////
+                /// GET USER INPUT ///
+                //////////////////////
+
+                let newPiece;
+                doPawnChange(this.state[currPos].getPiece().getColor(), this);
+                function doPawnChange(color, manager) {
+                    let pawnPage = document.getElementById("pawnChangePage");
+                    pawnPage.style.display = "block";
+                    let pawnOptions = Array.from(document.querySelectorAll(".pieceChangeElement"));
+
+                    console.log(pawnOptions.length);
+                    for (let i = 0; i < pawnOptions.length; i++) {
+                        pawnOptions[i].addEventListener("click", () => {
+                            newPiece = getChangePiece(pawnOptions[i].id, color, manager);
+                        });
+                    }
+                    let interval = setInterval(() => {
+                        if (newPiece != null) {
+                            clearInterval(interval);
+                            endPawnChange(manager);
+                        }
+                        else {
+                            console.log("Waiting for selection");
+                        }
+                    }, 10);
+                }
+                function endPawnChange(manager) {
+                    let pawnPage = document.getElementById("pawnChangePage");
+                    pawnPage.style.display = "none";
+                    movePieces(manager);
+                }
+                function getChangePiece(id, color, manager) {
+                    switch (id) {
+                        case "QSelect":
+                            return new Queen(color, manager);
+                        case "BSelect":
+                            return new Bishop(color, manager);
+                        case "KnSelect":
+                            return new Knight(color, manager);
+                        case "RSelect":
+                            return new Rook(color, manager);
+                        default:
+                            console.log(new Error("Wrong ID input for getChangePiece()"));
+                            return null;
+                    }
+                }
+                function movePieces(manager) {
+                    myMove = new SpecialMove(manager.getState()[currPos].getPiece(), currPos, newPos, manager, newPiece);
+                    manager.getMoveHistory().push(myMove);
+
+                    MessageBoard.moveMessage(manager.getState()[currPos].getPiece(), currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), false, "", " castle ");
+
+                    /////////////////////
+
+                    console.log(newPiece);
+
+                    manager.getState()[newPos].setPiece(newPiece);
+                    manager.getState()[currPos].setPiece(null);
+
+                    console.log("here bitches");
+                    endMove(manager);
+                }
                 break;
+
+
             case "Castle":
+                this.moveHistory.push(myMove);
+
                 MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), false, "", " castle ");
                 this.state[newPos].setPiece(this.state[currPos].getPiece());
                 this.state[currPos].setPiece(null);
                 let rookPos;
                 let newRookPos;
-                if(newPos > currPos) {
+                if (newPos > currPos) {
                     rookPos = currPos + 3;
                     newRookPos = currPos + 1;
                 }
@@ -189,16 +263,20 @@ export default class ChessStateManager {
                 }
                 this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
                 this.state[rookPos].setPiece(null);
+                endMove(this);
         }
 
-        this.board.update(this.state);
-
-        if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
-            MessageBoard.clearRedoPath();
-            this.clearRedoPath();
+        function endMove(manager) {
+            manager.getBoard().update(manager.getState());
+            
+            if (manager.getRedoPath().length > 0) {             // if not at most recent point, clear redos.
+                MessageBoard.clearRedoPath();
+                manager.clearRedoPath();
+            }
         }
-
+            
     }
+
 
     //////////////////////////
     /// GENERATION METHODS /// -- MOVE TO NEW CLASS
@@ -318,7 +396,7 @@ export default class ChessStateManager {
         }
         this.firstMoveHistory.push(null);
         //console.log('piece has moved before');
-        
+
     }
     popFirstMove() {
         let piece = this.firstMoveHistory.pop();
@@ -344,13 +422,13 @@ export default class ChessStateManager {
         this.redoPath.push(undo);
 
 
-        if(undo.isSpecial()) {
+        if (undo.isSpecial()) {
             let type = undo.getSpecialMove();
-            switch(type) {
+            switch (type) {
                 case "En Passant":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(null);
-                    let takePos = (undo.getEnd() - (this.board.getColumns()*undo.getMovePiece().getDirection()));
+                    let takePos = (undo.getEnd() - (this.board.getColumns() * undo.getMovePiece().getDirection()));
                     this.state[takePos].setPiece(undo.getTakePiece());
                     break;
                 case "Castle":
@@ -362,7 +440,7 @@ export default class ChessStateManager {
 
                     let currPos = undo.getStart();
 
-                    if(undo.getEnd() > undo.getStart()) {
+                    if (undo.getEnd() > undo.getStart()) {
                         rookPos = currPos + 1;
                         oldRookPos = currPos + 3;
                     }
@@ -393,15 +471,15 @@ export default class ChessStateManager {
 
         this.nextTeam();
         MessageBoard.redo();
-        
+
         let redo = this.redoPath.pop();
         this.moveHistory.push(redo);
 
         this.addFirstMove(redo.getMovePiece());
 
-        if(redo.isSpecial()) {
+        if (redo.isSpecial()) {
             let type = redo.getSpecialMove();
-            switch(type) {
+            switch (type) {
                 case "En Passant":
                     console.log("Here");
                     this.state[redo.getEnd()].setPiece(redo.getMovePiece());
@@ -416,7 +494,7 @@ export default class ChessStateManager {
                     let newRookPos;
                     let currPos = redo.getStart();
 
-                    if(redo.getEnd() > currPos) {
+                    if (redo.getEnd() > currPos) {
                         rookPos = currPos + 3;
                         newRookPos = currPos + 1;
                     }
@@ -427,7 +505,7 @@ export default class ChessStateManager {
                     this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
                     this.state[rookPos].setPiece(null);
                     break;
-            } 
+            }
         }
         else {  // normal move
             this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
