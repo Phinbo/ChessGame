@@ -22,6 +22,7 @@ export default class SpecialMove {
         return this.end;
     }
     getTakePiece() {
+        console.log(this.takePiece);
         return this.takePiece;
     }
     getManager() {

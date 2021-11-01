@@ -233,7 +233,7 @@ export default class ChessStateManager {
                     }
                 }
                 function movePieces(manager) {
-                    myMove = new SpecialMove(oldPiece, currPos, newPos, manager, newPiece);
+                    myMove = new SpecialMove(oldPiece, currPos, newPos, manager, newPiece, take);
                     manager.getMoveHistory().push(myMove);
 
                     let takeName;
@@ -436,7 +436,9 @@ export default class ChessStateManager {
                     break;
                 case "Pawn Change":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
-                    this.state[undo.getEnd()].setPiece();
+                    this.state[undo.getEnd()].setPiece(undo.getTakePiece());
+                    MessageBoard.undo();            // GET RID OF UPGRADE MESSAGE
+                    break;
                 case "Castle":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(null);
@@ -489,7 +491,8 @@ export default class ChessStateManager {
                     this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
                     break;
                 case "Pawn Change":
-                    // this.state[redo.getEnd().setPiece(redo.getMovePiece())];
+                    this.state[redo.getEnd()].setPiece(redo.getUpgrade());
+                    this.state[redo.getStart()].setPiece(null);
                     break;
                 case "Castle":
                     this.state[redo.getStart()].setPiece(null);
