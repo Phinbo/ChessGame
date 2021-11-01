@@ -4,7 +4,7 @@ This is a personal project of mine. Trying to create something to prove my knowl
 
 ## In development
 1. En Passant pawn attacks. (**DONE**).
-2. Pawn piece changing (undo and redo not yet complete). 
+2. Pawn piece changing (**DONE**). 
 3. Castling. (**DONE**)
 4. Check and checkmate detection. 
 5. Undo and Redo (**DONE**). 
