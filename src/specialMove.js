@@ -38,7 +38,6 @@ export default class SpecialMove {
         switch(name) {
             case "Pawn":                            
                 if(this.manager.getBoard().getRows() - 1 == this.manager.getRow(this.end) || this.manager.getRow(0) == this.manager.getRow(this.end)) {
-                    console.log("Detected a pawn change move");
                     return "Pawn Change";
                 }
                 return "En Passant";

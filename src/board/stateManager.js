@@ -64,7 +64,6 @@ export default class ChessStateManager {
     }
     getColumn(index) {
         let col = (index % this.board.getColumns());
-        //console.log(index + " is in column " + col);
         return col; // return the index of the column
     }
     getMoveHistory() {
@@ -145,7 +144,6 @@ export default class ChessStateManager {
         MessageBoard.moveMessage(this.state[currPos].getPiece(), currPos, newPos, this.board.getColumns(), this.board.getColumns(), isTake, takeName);
 
         this.moveHistory.push(new Move(this.state[currPos].getPiece(), currPos, newPos, this.state[newPos].getPiece()));
-        //console.log(this.moveHistory[0]);
         this.addFirstMove(this.state[currPos].getPiece());
 
 
@@ -191,7 +189,6 @@ export default class ChessStateManager {
                     pawnPage.style.display = "block";
                     let pawnOptions = Array.from(document.querySelectorAll(".pieceChangeElement"));
 
-                    console.log(pawnOptions.length);
                     for (let i = 0; i < pawnOptions.length; i++) {
                         pawnOptions[i].addEventListener("click", () => {
                             newPiece = getChangePiece(pawnOptions[i].id, color, manager);
@@ -240,8 +237,6 @@ export default class ChessStateManager {
                     MessageBoard.moveMessage(manager.getState()[currPos].getPiece(), currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), take, takeName);
 
                     /////////////////////
-
-                    console.log(newPiece);
 
                     manager.getState()[newPos].setPiece(newPiece);
                     manager.getState()[currPos].setPiece(null);
@@ -297,10 +292,8 @@ export default class ChessStateManager {
     genFen(state) {
         let output = "";
         for (let i = 0; i < state.length; i++) {
-            //console.log(state[i]);
             let curr = state[i];
             let toAdd;      // string to add to FEN.
-            //console.log(i);
             // has Piece
             if (curr.hasPiece()) {
                 toAdd = curr.getPiece().getTag();
@@ -398,11 +391,9 @@ export default class ChessStateManager {
         if (!this.firstMoveHistory.includes(piece)) {
             piece.setMoved(true);
             this.firstMoveHistory.push(piece);
-            //console.log('piece has NOT moved before');
             return;
         }
         this.firstMoveHistory.push(null);
-        //console.log('piece has moved before');
 
     }
     popFirstMove() {
@@ -416,7 +407,6 @@ export default class ChessStateManager {
     //unmove
     undoMove() {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
         if (this.moveHistory.length == 0) {
-            //console.log('nothing to undo');
             return;
         }
 
@@ -469,10 +459,8 @@ export default class ChessStateManager {
     }
 
     redoMove() {
-        //console.log(this.redoPath);
 
         if (this.redoPath.length == 0) {
-            console.log('nothing to redo');
             return;
         }
 
@@ -488,7 +476,6 @@ export default class ChessStateManager {
             let type = redo.getSpecialMove();
             switch (type) {
                 case "En Passant":
-                    console.log("Here");
                     this.state[redo.getEnd()].setPiece(redo.getMovePiece());
                     this.state[redo.getStart()].setPiece(null);
                     this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);

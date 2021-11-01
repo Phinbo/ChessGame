@@ -15,8 +15,6 @@ export default class EnPassant extends ChessPiece {
         let moves = [];
         let takes = [];
 
-        //console.log('something idk');
-
         this.validMoves = moves;
         this.validTakes = takes;
     }

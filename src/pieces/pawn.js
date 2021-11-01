@@ -44,9 +44,6 @@ export default class Pawn extends ChessPiece {
             }
         }
 
-        console.log(special);
-
-
         this.specialMoves = special;
         this.validMoves = moves;
         this.validTakes = takes;

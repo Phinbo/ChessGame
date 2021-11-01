@@ -27,17 +27,14 @@ export default class Moves {
 
     #onSameRow(pos1, pos2) {
         if (this.manager.getRow(pos1) == this.manager.getRow(pos2)) {
-            //console.log(pos1 + " and " + pos2 + " same row");
             return true;
         }
         return false;
     }
     #onSameCol(pos1, pos2) {
         if (this.manager.getColumn(pos1) == this.manager.getColumn(pos2)) {
-            //console.log(pos1 + " and " + pos2 + " ARE on same col");
             return true;
         }
-        //console.log(pos1 + " and " + pos2 + " NOT on same col");
         return false;
     }
 
@@ -108,11 +105,9 @@ export default class Moves {
         let move2 = forward + stepsSideways;
 
         if (this.#onSameRow(move1, forward) && !this.manager.getTile(move1).hasPiece()) {
-            //console.log("pushed " + move1);
             moves.push(move1);
         }
         if (this.#onSameRow(move2, forward) && !this.manager.getTile(move2).hasPiece()) {
-            //console.log("pushed " + move2);
             moves.push(move2);
         }
         return moves;
@@ -271,12 +266,10 @@ export default class Moves {
 
             if (this.#onSameRow(step, forward) && !this.manager.getTile(step).hasPiece()) {
                 moves.push(step);
-                //console.log("move " + step);
             }
             else if (this.#onSameRow(step, forward) && this.manager.getTile(step).hasPiece() && this.canTake(step)) {
                 takes.push(step);
                 collision = true;
-                //console.log("take " + step);
             }
             else {  // this happens when you bump into an ally piece
                 collision = true;
@@ -332,7 +325,6 @@ export default class Moves {
         // THESE FOR LOOPS CHECK THAT THERE ARE NO TILES UP TO THE POT ROOK LOCATION
         for(let i = 1; i < 3; i++) {
             if(this.manager.getTile(this.currPos + i).getPiece() != null) {
-                console.log("broke right, at " + (this.currPos + i));
                 break;
             }
             if(i == 2 && this.#onSameRow(this.currPos, this.currPos + 3)) {    // if on last loop
@@ -341,7 +333,6 @@ export default class Moves {
         }
         for(let i = 1; i < 4; i++){
             if(this.manager.getTile(this.currPos - i).getPiece() != null) {
-                console.log("broke left");
                 break;
             }
             if(i == 3 && this.#onSameRow(this.currPos, this.currPos - 4)) {    // if on last loop
@@ -356,11 +347,9 @@ export default class Moves {
             if(Rpiece != null && Rpiece.getName() == "Rook" && Rpiece.getColor() == this.piece.getColor() && !Rpiece.getMoved()) {
                 if(testPos > this.currPos) {
                     specials.push(this.currPos + 2);
-                    console.log("did right");
                 }
                 else {
                     specials.push(this.currPos - 2);
-                    console.log("did left");
                 }
             }
         }

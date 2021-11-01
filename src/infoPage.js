@@ -38,7 +38,6 @@ messageButton.addEventListener("click", (e) => {
 });
 slider.addEventListener("click", (e) => {
     changeTileSize(slider.value);
-    console.log('changeMade');
 });
 
 

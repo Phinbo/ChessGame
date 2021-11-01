@@ -163,7 +163,6 @@ export default class ChessBoard {
         let marginTB = 30;
 
         let screenX = window.innerWidth;
-        //console.log(screenX);
         let boardX = boardDiv.offsetWidth;
 
         let screenY = window.innerHeight;
@@ -172,7 +171,6 @@ export default class ChessBoard {
         // center LR
         if(boardX < (screenX - (marginLR*2))) {
             boardDiv.style.marginLeft = (screenX - boardX)/2 + 'px';
-            //console.log(boardDiv.style.marginLeft);
             this.container.style.width = '100%';
         }
         else {  //offset LR
@@ -197,7 +195,6 @@ export default class ChessBoard {
     highlightMoves(currPos) {
         this.manager = manager;
 
-        //console.log("highlight");
         let piece = this.manager.getState()[currPos].getPiece();
         piece.generateMoves(currPos);
 
