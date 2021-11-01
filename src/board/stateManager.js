@@ -162,6 +162,7 @@ export default class ChessStateManager {
 
     // SPECIAL MOVES:: SHOULD BE REFACTORED INTO NEW CLASS OR MULTIPLE CLASSES
     // right now this is quite literally the worst code I have ever written in my entire life. I am embarrasses that it exists.
+    // Everything went to shit trying to implement pawn upgrades.
     specialMove(currPos, newPos) {
         this.nextTeam();    // change which team moves next;
         this.addFirstMove(this.state[currPos].getPiece());  // could cause issues with undo redo?? I may have imagined that...
@@ -230,7 +231,13 @@ export default class ChessStateManager {
                     myMove = new SpecialMove(manager.getState()[currPos].getPiece(), currPos, newPos, manager, newPiece);
                     manager.getMoveHistory().push(myMove);
 
-                    MessageBoard.moveMessage(manager.getState()[currPos].getPiece(), currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), false, "", " castle ");
+                    let takeName;
+                    let take = !(manager.getState()[newPos].getPiece() == null);
+                    if(take) {
+                        takeName = manager.getState()[newPos].getPiece().getName();
+                    }
+
+                    MessageBoard.moveMessage(manager.getState()[currPos].getPiece(), currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), take, takeName);
 
                     /////////////////////
 
@@ -239,7 +246,7 @@ export default class ChessStateManager {
                     manager.getState()[newPos].setPiece(newPiece);
                     manager.getState()[currPos].setPiece(null);
 
-                    console.log("here bitches");
+                    MessageBoard.message("Upgraded to " + newPiece.getName());
                     endMove(manager);
                 }
                 break;
