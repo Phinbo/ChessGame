@@ -13,6 +13,8 @@ This is a personal project of mine. Trying to create something to prove my knowl
     2. Elimination
     3. Pawn journey
 8. Creating starting positions (already possible with fen, but I would like this to be possible using a more natural menu).
+9. Custom Colors OR a list of presets to choose from.
+10. Audio Queues for moves, and/or music?
 
 ## Known Bugs
 1. Undo and Redo not working properly on abnormal board size. Example is "kn/pp/2/2/2/2/PP/KN." Special moves work fine, but normal moves reset the board on undo, and go back to previous state on redo, instead of only undoing and redoing single moves.
