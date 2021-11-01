@@ -290,6 +290,8 @@ export default class ChessStateManager {
 
     initialGeneration(FEN) {
         this.state = this.fenGen(FEN);
+        this.moveHistory = [];
+        this.redoPath = [];
     }
 
     // generateFen() -- generate a fen string based on an input state
