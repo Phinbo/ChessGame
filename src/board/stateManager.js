@@ -207,9 +207,6 @@ export default class ChessStateManager {
                             clearInterval(interval);
                             endPawnChange(manager);
                         }
-                        else {
-                            console.log("Waiting for selection");
-                        }
                     }, 10);
                 }
                 function endPawnChange(manager) {
@@ -493,6 +490,7 @@ export default class ChessStateManager {
                 case "Pawn Change":
                     this.state[redo.getEnd()].setPiece(redo.getUpgrade());
                     this.state[redo.getStart()].setPiece(null);
+                    MessageBoard.redo();        // DISPLAY UPGRADE MESSAGE
                     break;
                 case "Castle":
                     this.state[redo.getStart()].setPiece(null);
