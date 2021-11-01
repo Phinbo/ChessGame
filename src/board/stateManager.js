@@ -183,8 +183,14 @@ export default class ChessStateManager {
                 //////////////////////
 
                 let newPiece;
+                let oldPiece = this.state[currPos].getPiece();
                 doPawnChange(this.state[currPos].getPiece().getColor(), this);
                 function doPawnChange(color, manager) {
+
+                    manager.getState()[newPos].setPiece(manager.getState()[currPos].getPiece());
+                    manager.getState()[currPos].setPiece(null);
+                    manager.getBoard().update(manager.getState());
+
                     let pawnPage = document.getElementById("pawnChangePage");
                     pawnPage.style.display = "block";
                     let pawnOptions = Array.from(document.querySelectorAll(".pieceChangeElement"));
@@ -225,7 +231,7 @@ export default class ChessStateManager {
                     }
                 }
                 function movePieces(manager) {
-                    myMove = new SpecialMove(manager.getState()[currPos].getPiece(), currPos, newPos, manager, newPiece);
+                    myMove = new SpecialMove(oldPiece, currPos, newPos, manager, newPiece);
                     manager.getMoveHistory().push(myMove);
 
                     let takeName;
@@ -234,12 +240,12 @@ export default class ChessStateManager {
                         takeName = manager.getState()[newPos].getPiece().getName();
                     }
 
-                    MessageBoard.moveMessage(manager.getState()[currPos].getPiece(), currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), take, takeName);
+                    MessageBoard.moveMessage(oldPiece, currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), take, takeName);
 
                     /////////////////////
 
                     manager.getState()[newPos].setPiece(newPiece);
-                    manager.getState()[currPos].setPiece(null);
+                    //manager.getState()[currPos].setPiece(null);
 
                     MessageBoard.message("Upgraded to " + newPiece.getName());
                     endMove(manager);
