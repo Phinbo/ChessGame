@@ -19,11 +19,13 @@
     --gradientBottom: rgba(9, 20, 34, 1);
     --gradientTop: rgba(44, 52, 63, 1);
 
-    --scrollbar: rgb(223, 134, 33);
+    /* --scrollbar: rgb(223, 134, 33); */
     --scrollbarThumb: #975a28;
     --scrollbarThumbHover: #72441f;
 
-    --infoPageBorder: rgb(223, 134, 33);
+    --border: rgb(223,134,33);
+
+    /* --infoPageBorder: rgb(223, 134, 33); */
     --infoPage: #b1b6bd;
 
     --generateButtonHover: rgb(255, 194, 137);
@@ -37,18 +39,20 @@
 
     --stateButtonOutside: rgba(50, 73, 99, 0.562);
     --stateButtonInside: rgb(255, 255, 255);
-    --stateButtonHover: rgb(240, 105, 52);
+    /* --stateButtonHover: rgb(240, 105, 52); */
+
+    --uiHover: rgb(216, 83, 38);
 
     --pawnChangePage: rgba(255, 255, 255, 0.356);
     --pawnChange: rgb(0, 0, 0);
-    --pieceChangeHover: rgb(216, 83, 30);
+    /* --pieceChangeHover: rgb(216, 83, 30); */
 
 }
 
 body::-webkit-scrollbar {
     width: 17px;
     height: 17px;
-    background-color: var(--scrollbar);
+    background-color: var(--border);
 }
 
 body::-webkit-scrollbar-track {
@@ -97,7 +101,7 @@ body {
     width: 400px;
     max-width: 100%;
     border-width: 0px 27px 0px 0;
-    border-color: var(--infoPageBorder);
+    border-color: var(--border);
     border-style: solid;
     background-color: var(--infoPage);
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 7px 2px;
@@ -310,7 +314,7 @@ hr {
 }
 
 .stateButton:hover {
-    color: var(--stateButtonHover);
+    color: var(--uiHover);
 }
 
 #pawnChangePage {
@@ -344,5 +348,5 @@ hr {
 }
 
 .pieceChangeElement:hover {
-    color: var(--pieceChangeHover);
+    color: var(--uiHover);
 }
