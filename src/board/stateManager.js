@@ -184,6 +184,8 @@ export default class ChessStateManager {
 
                 let newPiece;
                 let oldPiece = this.state[currPos].getPiece();
+                let take = this.state[newPos].getPiece();
+
                 doPawnChange(this.state[currPos].getPiece().getColor(), this);
                 function doPawnChange(color, manager) {
 
@@ -235,9 +237,8 @@ export default class ChessStateManager {
                     manager.getMoveHistory().push(myMove);
 
                     let takeName;
-                    let take = !(manager.getState()[newPos].getPiece() == null);
-                    if(take) {
-                        takeName = manager.getState()[newPos].getPiece().getName();
+                    if(!(take == null)) {
+                        takeName = take.getName();
                     }
 
                     MessageBoard.moveMessage(oldPiece, currPos, newPos, manager.getBoard().getColumns(), manager.getBoard().getColumns(), take, takeName);
@@ -341,7 +342,6 @@ export default class ChessStateManager {
                 }
             }
             if (output.length != (this.board.getRows() * this.board.getColumns())) {
-                //console.trace('invalid fen');
                 throw new Error("FEN code invalid for board");
             }
             else {
@@ -434,6 +434,9 @@ export default class ChessStateManager {
                     let takePos = (undo.getEnd() - (this.board.getColumns() * undo.getMovePiece().getDirection()));
                     this.state[takePos].setPiece(undo.getTakePiece());
                     break;
+                case "Pawn Change":
+                    this.state[undo.getStart()].setPiece(undo.getMovePiece());
+                    this.state[undo.getEnd()].setPiece();
                 case "Castle":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(null);
@@ -465,7 +468,6 @@ export default class ChessStateManager {
     }
 
     redoMove() {
-
         if (this.redoPath.length == 0) {
             return;
         }
@@ -485,6 +487,9 @@ export default class ChessStateManager {
                     this.state[redo.getEnd()].setPiece(redo.getMovePiece());
                     this.state[redo.getStart()].setPiece(null);
                     this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
+                    break;
+                case "Pawn Change":
+                    // this.state[redo.getEnd().setPiece(redo.getMovePiece())];
                     break;
                 case "Castle":
                     this.state[redo.getStart()].setPiece(null);

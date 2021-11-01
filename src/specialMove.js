@@ -1,13 +1,13 @@
 
 export default class SpecialMove {
-    constructor(movePiece, start, end, manager, upgrade) {
+    constructor(movePiece, start, end, manager, upgrade, takePiece) {
         this.manager = manager;
         this.movePiece = movePiece;
         this.start = start;
         this.end = end;
         this.upgrade = upgrade;
         this.specialMove = this.#determineType();   // needs to be calculated
-        this.takePiece = this.#determineTake();     // needs to be calculated
+        this.takePiece = this.#determineTake(takePiece);     // needs to be calculated
     }
     getSpecialMove() {
         return this.specialMove;
@@ -46,10 +46,12 @@ export default class SpecialMove {
         }
     }
 
-    #determineTake() {
+    #determineTake(take) {
         switch(this.specialMove) {
             case "En Passant":
                 return this.manager.getTile(this.end - (this.manager.getBoard().getColumns()) * this.movePiece.getDirection()).getPiece();
+            case "Pawn Change":
+                return take;
             case "Castle":
                 return null;
         }
