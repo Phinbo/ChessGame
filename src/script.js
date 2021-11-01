@@ -1,7 +1,7 @@
 
 import ChessBoard from "./board/board.js";
 import ChessStateManager from "./board/stateManager.js";
-import inputHandler from "./inputHandler.js";
+import InputHandler from "./inputHandler.js";
 
 /*
 
@@ -20,6 +20,7 @@ import inputHandler from "./inputHandler.js";
 
 let board = new ChessBoard(document.getElementById("boardContainer"), document.getElementById("row").value, document.getElementById("col").value, 90);
 let manager = new ChessStateManager(board);
+let input = new InputHandler(manager);
 
 // INITIAL SETUP
 generateNewBoard(board.getRows(),board.getColumns(),"");   
@@ -41,7 +42,8 @@ function generateNewBoard(row, col, fen) {
     board.generateBoard();
     manager.initialGeneration(fen);
 
-    new inputHandler(manager);
+    input.abort();
+    input = new InputHandler(manager);
 
     board.update(manager.getState());
 }

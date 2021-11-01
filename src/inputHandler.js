@@ -1,5 +1,5 @@
 // take user input and initiate moves.
-export default class inputHandler {
+export default class InputHandler {
 
     ///////////////////
     /// CONSTRUCTOR ///
@@ -16,12 +16,12 @@ export default class inputHandler {
         this.redo = document.getElementById("redo");
         this.undo = document.getElementById("undo");
 
-        undo.addEventListener("click", () => {
+        this.undo.addEventListener("click", () => {
             manager.undoMove();
             this.#returnPiece();
         });
 
-        redo.addEventListener("click", () => {
+        this.redo.addEventListener("click", () => {
             manager.redoMove();
             this.#returnPiece();
         });
@@ -54,6 +54,17 @@ export default class inputHandler {
         document.addEventListener('contextmenu', (e) => {
             e.preventDefault();
         });
+    }
+
+    // ERASE EVENT LISTENERS -- called when the board is regenerated.
+    abort() {
+        let oldUndo = this.undo;
+        let oldRedo = this.redo;
+        let newUndo = this.undo.cloneNode(true);
+        let newRedo = this.redo.cloneNode(true);
+
+        oldUndo.parentNode.replaceChild(newUndo, this.undo);
+        oldRedo.parentNode.replaceChild(newRedo, this.redo);
     }
 
 
