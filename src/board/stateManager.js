@@ -10,6 +10,7 @@ import ChessTile from "./tile.js";
 import MessageBoard from "../messageBoard.js";
 import Move from "../move.js";
 import SpecialMove from "../specialMove.js";
+import AudioHandler from "../audioHandler.js";
 
 export default class ChessStateManager {
     constructor(board) {
@@ -152,6 +153,8 @@ export default class ChessStateManager {
 
         this.board.update(this.state);
 
+        AudioHandler.moveSound(isTake);
+
         if (this.redoPath.length > 0) {             // if not at most recent point, clear redos.
             MessageBoard.clearRedoPath();
             this.clearRedoPath();
@@ -175,6 +178,7 @@ export default class ChessStateManager {
                 this.state[currPos].setPiece(null);
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 endMove(this);
+                AudioHandler.moveSound(true);
                 break;
             case "Pawn Change":     // THIS SECTION in particular is FILTHY to look at. Its awful and hacky and it needs to be fixed.
 
@@ -192,6 +196,13 @@ export default class ChessStateManager {
                     manager.getState()[newPos].setPiece(manager.getState()[currPos].getPiece());
                     manager.getState()[currPos].setPiece(null);
                     manager.getBoard().update(manager.getState());
+
+                    AudioHandler.moveSound(() => {
+                        if(take == null) {
+                            return false;
+                        }
+                        return true;
+                    });
 
                     let pawnPage = document.getElementById("pawnChangePage");
                     pawnPage.style.display = "block";
@@ -243,10 +254,12 @@ export default class ChessStateManager {
                     /////////////////////
 
                     manager.getState()[newPos].setPiece(newPiece);
+                    AudioHandler.moveSound(true);
                     //manager.getState()[currPos].setPiece(null);
 
                     MessageBoard.message("Upgraded to " + newPiece.getName());
                     endMove(manager);
+                    // AudioHandler.moveSound(isTake);
                 }
                 break;
 
@@ -270,6 +283,7 @@ export default class ChessStateManager {
                 this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
                 this.state[rookPos].setPiece(null);
                 endMove(this);
+                AudioHandler.moveSound(true);
         }
 
         function endMove(manager) {
