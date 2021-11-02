@@ -74,26 +74,58 @@ const green = {
     darkTileColor: "#3a8f4c",
     lightTileColor: "#b4cf9a",
     tileHoverBorder: "rgba(0, 0, 0, 1)",
+
     gradientBottom: 'rgb(34 9 9)',
     gradientTop: 'rgb(63 44 44)',
+
     scrollbarThumb: '#326e23',
     scrollbarThumbHover: '#285619',
+
     border: 'rgb(112 179 36)',
+
     infoPage: '#aabba2',
+
     buttonHover: 'rgb(177 255 137)',
+
     messageBoard: 'rgb(99 90 84 / 84%)',
     message: 'rgb(195 217 190)',
+
     underAttack: 'rgb(255 210 45)',
     highlightHueRotation: '-70deg',
     specialHighlight: 'rgb(255, 238, 83)',
+
     stateButtonOutside: 'rgb(99 50 50 / 56%)',
     stateButtonInside: 'rgb(255, 255, 255)',
+
     uiHover: 'rgb(30 230 77)',
+    
     pawnChangePage: 'rgba(255, 255, 255, 0.356)',
     pawnChange: 'rgb(0, 0, 0)',
-}
+};
+const red = {
+    darkTileColor: '#5c1f1f',
+    lightTileColor: '#7c2d2d',
+    tileHoverBorder: 'rgb(0 0 0)',
+    gradientBottom: 'rgb(0 0 0)',
+    gradientTop: 'rgb(38 10 10)',
+    scrollbarThumb: '#975a28',
+    scrollbarThumbHover: '#72441f',
+    border: 'rgb(124 0 0)',
+    infoPage: '#814f4f',
+    buttonHover: 'rgb(193 86 86)',
+    messageBoard: 'rgb(62 31 31 / 84%)',
+    message: 'rgb(143 143 143)',
+    underAttack: 'rgb(171 72 144)',
+    highlightHueRotation: '-45deg',
+    specialHighlight: 'rgb(255, 238, 83)',
+    stateButtonOutside: 'rgb(112 60 60 / 56%)',
+    stateButtonInside: 'rgb(255, 255, 255)',
+    uiHover: 'rgb(183 34 52)',
+    pawnChangePage: 'rgb(0 0 0 / 35%)',
+    pawnChange: 'rgb(0 0 0)',
+};
 
-const list = [orange, blue, green];
+const list = [orange, green, blue, red];
 let current = 0;
 function toggle() {
     current++;
