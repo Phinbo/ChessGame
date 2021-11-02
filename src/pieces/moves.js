@@ -306,12 +306,12 @@ export default class Moves {
         for(let i = 0; i < potPawnLocs.length; i++) {
             let testPiece = this.manager.getTile(potPawnLocs[i]).getPiece();
             if(testPiece != null && testPiece.getName() == "Pawn" && this.piece.getColor() != testPiece.getColor()) {
-                this.manager.undoMove();            // THIS IS CAUSING BUGS
+                this.manager.undoMove(true);            // THIS IS CAUSING BUGS
                 if(this.manager.getTile(potPawnLocs[i] + (this.cols * 2 * this.piece.getDirection())).getPiece() == testPiece) {
                     specials.push(potPawnLocs[i] + (this.cols * this.piece.getDirection()));
                     // NOTE: this adds the move location... specials could hold objects though maybe?
                 } 
-                this.manager.redoMove();            // CAUSING BUGS
+                this.manager.redoMove(true);            // CAUSING BUGS
             }
         }
         return specials;

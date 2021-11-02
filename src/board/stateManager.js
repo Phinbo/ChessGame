@@ -197,12 +197,11 @@ export default class ChessStateManager {
                     manager.getState()[currPos].setPiece(null);
                     manager.getBoard().update(manager.getState());
 
-                    AudioHandler.moveSound(() => {
-                        if(take == null) {
-                            return false;
-                        }
-                        return true;
-                    });
+                    let isTake = true;
+                    if(take == null) {
+                        isTake = false;
+                    }
+                    AudioHandler.moveSound(isTake);
 
                     let pawnPage = document.getElementById("pawnChangePage");
                     pawnPage.style.display = "block";
@@ -424,7 +423,7 @@ export default class ChessStateManager {
     }
 
     //unmove
-    undoMove() {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
+    undoMove(doQuiet = false) {    // startPos is the starting postion of the move to be undone, and endpos is likewise.
         if (this.moveHistory.length == 0) {
             return;
         }
@@ -446,12 +445,20 @@ export default class ChessStateManager {
                     this.state[undo.getEnd()].setPiece(null);
                     let takePos = (undo.getEnd() - (this.board.getColumns() * undo.getMovePiece().getDirection()));
                     this.state[takePos].setPiece(undo.getTakePiece());
+                    if (!doQuiet) {
+                        AudioHandler.moveSound(true);
+                    }
                     break;
+
                 case "Pawn Change":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(undo.getTakePiece());
                     MessageBoard.undo();            // GET RID OF UPGRADE MESSAGE
+                    if (!doQuiet) {
+                        AudioHandler.moveSound(true);
+                    }
                     break;
+
                 case "Castle":
                     this.state[undo.getStart()].setPiece(undo.getMovePiece());
                     this.state[undo.getEnd()].setPiece(null);
@@ -471,18 +478,29 @@ export default class ChessStateManager {
                     }
                     this.state[oldRookPos].setPiece(this.state[rookPos].getPiece());
                     this.state[rookPos].setPiece(null);
+                    if (!doQuiet) {
+                        AudioHandler.moveSound(true);
+                    }
                     break;
             }
         }
         else {
             this.state[undo.getStart()].setPiece(undo.getMovePiece()); // set state at a moves start point to the end piece
             this.state[undo.getEnd()].setPiece(undo.getTakePiece());
+
+            if(!doQuiet) {
+                let isTake = true;
+                if(undo.getTakePiece() == null) {
+                    isTake = false;
+                }
+                AudioHandler.moveSound(isTake);
+            }
         }
 
         this.board.update(this.state);
     }
 
-    redoMove() {
+    redoMove(doQuiet = false) {
         if (this.redoPath.length == 0) {
             return;
         }
@@ -502,12 +520,20 @@ export default class ChessStateManager {
                     this.state[redo.getEnd()].setPiece(redo.getMovePiece());
                     this.state[redo.getStart()].setPiece(null);
                     this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
+                    if (!doQuiet) {
+                        AudioHandler.moveSound(true);
+                    }
                     break;
+
                 case "Pawn Change":
                     this.state[redo.getEnd()].setPiece(redo.getUpgrade());
                     this.state[redo.getStart()].setPiece(null);
                     MessageBoard.redo();        // DISPLAY UPGRADE MESSAGE
+                    if (!doQuiet) {
+                        AudioHandler.moveSound(true);
+                    }
                     break;
+                    
                 case "Castle":
                     this.state[redo.getStart()].setPiece(null);
                     this.state[redo.getEnd()].setPiece(redo.getMovePiece()); // why doesnt this work?
@@ -526,12 +552,22 @@ export default class ChessStateManager {
                     }
                     this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
                     this.state[rookPos].setPiece(null);
+                    if (!doQuiet) {
+                        AudioHandler.moveSound(true);
+                    }
                     break;
             }
         }
         else {  // normal move
             this.state[redo.getEnd()].setPiece(this.state[redo.getStart()].getPiece());
             this.state[redo.getStart()].setPiece(null);
+            if (!doQuiet) {
+                let isTake = true;
+                if(redo.getTakePiece() == null) {
+                    isTake = false;
+                }
+                AudioHandler.moveSound(isTake);
+            }
         }
 
         this.board.update(this.state);
