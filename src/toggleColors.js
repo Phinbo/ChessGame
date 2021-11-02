@@ -38,7 +38,7 @@ const orange = {
 };
 
 const blue = {
-    darkTileColor: "#3bb6b6",
+    darkTileColor: "#3c9f9f",
     lightTileColor : "#85d3ce",
     tileHoverBorder : 'rgba(0, 0, 0, 1)',
     
@@ -70,7 +70,30 @@ const blue = {
     pawnChange : 'rgb(0, 0, 0)',
 };
 
-const list = [orange, blue];
+const green = {
+    darkTileColor: "#3a8f4c",
+    lightTileColor: "#b4cf9a",
+    tileHoverBorder: "rgba(0, 0, 0, 1)",
+    gradientBottom: 'rgb(34 9 9)',
+    gradientTop: 'rgb(63 44 44)',
+    scrollbarThumb: '#326e23',
+    scrollbarThumbHover: '#285619',
+    border: 'rgb(112 179 36)',
+    infoPage: '#aabba2',
+    buttonHover: 'rgb(177 255 137)',
+    messageBoard: 'rgb(99 90 84 / 84%)',
+    message: 'rgb(195 217 190)',
+    underAttack: 'rgb(255 181 45)',
+    highlightHueRotation: '260deg',
+    specialHighlight: 'rgb(255, 238, 83)',
+    stateButtonOutside: 'rgb(99 50 50 / 56%)',
+    stateButtonInside: 'rgb(255, 255, 255)',
+    uiHover: 'rgb(30 230 77)',
+    pawnChangePage: 'rgba(255, 255, 255, 0.356)',
+    pawnChange: 'rgb(0, 0, 0)',
+}
+
+const list = [orange, blue, green];
 let current = 0;
 function toggle() {
     current++;
