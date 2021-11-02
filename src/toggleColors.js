@@ -48,17 +48,17 @@ const blue = {
     scrollbarThumb : '#284297',
     scrollbarThumbHover : '#2a1f72',
     
-    border : 'rgb(33 146 223)',
+    border : 'rgb(0 152 207)',
     
     infoPage : '#9dbccb',
     
     buttonHover : 'rgb(137 240 255)',
     
-    messageBoard : 'rgb(75 61 82 / 84%)',
-    message : 'rgb(236 255 253)',
+    messageBoard : 'rgb(76 64 82 / 84%)',
+    message : 'rgb(199 199 199)',
     
     underAttack : 'rgb(255 223 115)',
-    highlightHueRotation : '200deg',
+    highlightHueRotation : '-140deg',
     specialHighlight : 'rgb(255, 238, 83)',
     
     stateButtonOutside : 'rgb(109 97 133 / 56%)',
@@ -83,8 +83,8 @@ const green = {
     buttonHover: 'rgb(177 255 137)',
     messageBoard: 'rgb(99 90 84 / 84%)',
     message: 'rgb(195 217 190)',
-    underAttack: 'rgb(255 181 45)',
-    highlightHueRotation: '260deg',
+    underAttack: 'rgb(255 210 45)',
+    highlightHueRotation: '-70deg',
     specialHighlight: 'rgb(255, 238, 83)',
     stateButtonOutside: 'rgb(99 50 50 / 56%)',
     stateButtonInside: 'rgb(255, 255, 255)',
