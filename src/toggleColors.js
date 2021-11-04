@@ -1,9 +1,3 @@
-let root = document.documentElement;
-let button = document.getElementById("toggleColors");
-
-button.addEventListener("click",toggle);
-
-
 const orange = {
     darkTileColor: "#b68b3b",
     lightTileColor : "#ddc071",
@@ -36,7 +30,6 @@ const orange = {
     pawnChangePage : 'rgba(255, 255, 255, 0.356)',
     pawnChange : 'rgb(0, 0, 0)',
 };
-
 const blue = {
     darkTileColor: "#3c9f9f",
     lightTileColor : "#85d3ce",
@@ -69,7 +62,6 @@ const blue = {
     pawnChangePage : 'rgba(255, 255, 255, 0.356)',
     pawnChange : 'rgb(0, 0, 0)',
 };
-
 const green = {
     darkTileColor: "#3a8f4c",
     lightTileColor: "#b4cf9a",
@@ -125,14 +117,36 @@ const red = {
     pawnChange: 'rgb(0 0 0)',
 };
 
+const root = document.documentElement;
+const button = document.getElementById("toggleColors");
 const list = [orange, green, blue, red];
 let current = 0;
+
+button.addEventListener("click",toggle);
+
+initColor();
+
+function initColor() {
+    const colorRegex = /(?<=colorTheme=)\d/;
+    let val = document.cookie.match(colorRegex)[0];
+    if(val != "") {
+        setColor(parseInt(val));
+    }
+}
+
 function toggle() {
+    document.cookie = "colorTheme= ; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";                // delete old cookie
     current++;
     if(current >= list.length) {
         current = 0;
     }
-    for(const property in list[current]) {
-        root.style.setProperty("--" + property, list[current][property]);
+    document.cookie = "colorTheme=" + current + "; expires=Tue, 19 Jan 2038 04:14:07 GMT; path=/";  // create new cookie
+    setColor(current);
+}
+
+function setColor(listNum) {
+    current = listNum;
+    for(const property in list[listNum]) {
+        root.style.setProperty("--" + property, list[listNum][property]);
     }
 }
