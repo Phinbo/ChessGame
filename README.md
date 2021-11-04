@@ -19,6 +19,7 @@ This is a personal project of mine. Trying to create something to prove my knowl
     1. nbpnb/20/NBPNB -- protect the pawn
     2. rnbqkbnr/pppppppp/PPPPPPPP/RNBQKBNR -- close quarters
     3. etc
+8. Turn indicator
 
 ## Known Bugs
 1. rnbqkbnr/ppppppPp/8/8/8/8/PPPPPPPP/RNBQKBNR => update => upgrade white pawn => undo => move same white pawn = bizarre bug which i cant figure out. Somehow this allows the move history to have a length greater than 0 in the starting position.. For some reason, the board state is also in a state previous to the board update.
