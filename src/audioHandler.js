@@ -15,7 +15,7 @@ export default class AudioHandler {
     static moveSound(multi, delay=50) {
         const audio1 = new Audio("./sounds/pieceMove1.wav");
         const audio2 = new Audio(AudioHandler.randomSound());
-        const delay = 50;
+
         if(multi) {
             setTimeout(() => {
                 audio2.play();

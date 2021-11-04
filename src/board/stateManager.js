@@ -178,7 +178,7 @@ export default class ChessStateManager {
                 this.state[currPos].setPiece(null);
                 this.state[newPos - (this.getBoard().getColumns() * myMove.getMovePiece().getDirection())].setPiece(null);
                 endMove(this);
-                AudioHandler.moveSound(true);
+                AudioHandler.moveSound(true, 100);
                 break;
             case "Pawn Change":     // THIS SECTION in particular is FILTHY to look at. Its awful and hacky and it needs to be fixed.
 
@@ -282,7 +282,7 @@ export default class ChessStateManager {
                 this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
                 this.state[rookPos].setPiece(null);
                 endMove(this);
-                AudioHandler.moveSound(true);
+                AudioHandler.moveSound(true, 100);
         }
 
         function endMove(manager) {
@@ -446,7 +446,7 @@ export default class ChessStateManager {
                     let takePos = (undo.getEnd() - (this.board.getColumns() * undo.getMovePiece().getDirection()));
                     this.state[takePos].setPiece(undo.getTakePiece());
                     if (!doQuiet) {
-                        AudioHandler.moveSound(true);
+                        AudioHandler.moveSound(true, 100);
                     }
                     break;
 
@@ -479,7 +479,7 @@ export default class ChessStateManager {
                     this.state[oldRookPos].setPiece(this.state[rookPos].getPiece());
                     this.state[rookPos].setPiece(null);
                     if (!doQuiet) {
-                        AudioHandler.moveSound(true);
+                        AudioHandler.moveSound(true, 100);
                     }
                     break;
             }
@@ -521,7 +521,7 @@ export default class ChessStateManager {
                     this.state[redo.getStart()].setPiece(null);
                     this.state[redo.getEnd() - (this.board.getColumns() * redo.getMovePiece().getDirection())].setPiece(null);
                     if (!doQuiet) {
-                        AudioHandler.moveSound(true);
+                        AudioHandler.moveSound(true, 100);
                     }
                     break;
 
@@ -553,7 +553,7 @@ export default class ChessStateManager {
                     this.state[newRookPos].setPiece(this.state[rookPos].getPiece());
                     this.state[rookPos].setPiece(null);
                     if (!doQuiet) {
-                        AudioHandler.moveSound(true);
+                        AudioHandler.moveSound(true, 100);
                     }
                     break;
             }
