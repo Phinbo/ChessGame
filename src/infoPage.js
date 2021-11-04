@@ -16,6 +16,7 @@ let messageButton = document.getElementById("messageBoard-open-close");
 let messageButtonState = 'visible';
 let messageBoard = document.getElementById("messageBoard");
 
+updateMessageBoard() // turn off messageBoard by default
 
 
 
@@ -86,6 +87,7 @@ function updateInfoPage() {
 }
 
 function updateMessageBoard() {
+    console.log("here, was " + messageButtonState);
     switch (messageButtonState) {
         case "hidden":
             messageButtonState = "visible";
