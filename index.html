@@ -5,19 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <title>Chess Game</title>
+
     <script src="https://kit.fontawesome.com/73970ed689.js" crossorigin="anonymous"></script>
     <script type="module" src="src/script.js" defer></script>
     <script type="module" src="src/infoPage.js" defer></script>
     <script type="module" src="src/toggleColors.js" defer></script>
 
+    <title>Chess Game</title>
 </head>
+
 <body>
     <!-- ChessBoard -->
     <div id="boardContainer"></div>
@@ -30,29 +33,29 @@
 
     <!-- Undo and Redo Buttons -->
     <div id='undo-redo'>
-        <i id="undo"class="fas fa-undo-alt stateButton"></i>
-        <i id="redo"class="fas fa-redo-alt stateButton"></i>
+        <i id="undo" class="fas fa-undo-alt stateButton"></i>
+        <i id="redo" class="fas fa-redo-alt stateButton"></i>
     </div>
 
     <div id="pawnChangePage">
         <div id="pieceSelector">
-            <i id="QSelect"class="fas fa-chess-queen pieceChangeElement"></i>
-            <i id="BSelect"class="fas fa-chess-bishop pieceChangeElement"></i>
-            <i id="KnSelect"class="fas fa-chess-knight pieceChangeElement"></i>
-            <i id="RSelect"class="fas fa-chess-rook pieceChangeElement"></i>
+            <i id="QSelect" class="fas fa-chess-queen pieceChangeElement"></i>
+            <i id="BSelect" class="fas fa-chess-bishop pieceChangeElement"></i>
+            <i id="KnSelect" class="fas fa-chess-knight pieceChangeElement"></i>
+            <i id="RSelect" class="fas fa-chess-rook pieceChangeElement"></i>
         </div>
     </div>
 
-     <!-- InfoPage -->
+    <!-- InfoPage -->
     <div id="infoPage" class="leftTransition">
         <i id="open-close" class="fas fa-chevron-circle-right leftTransition"></i>
         <h2 class="infoPageHeader" id="gameSettingsTitle">Game Settings</h2>
         <!-- Generation/Resizing Buttons -->
         <div id="customButton">
             <label>Rows</label>
-            <input class=" classBorderedInput canGenerate"id="row" type='number' value='8' min="1">
+            <input class=" classBorderedInput canGenerate" id="row" type='number' value='8' min="1">
             <label>Columns</label>
-            <input class="classBorderedInput canGenerate"id="col" type='number' value='8' min="1">
+            <input class="classBorderedInput canGenerate" id="col" type='number' value='8' min="1">
             <label>Size</label>
             <input type="range" min="10" max="300" value="105" class="slider" id="tileSizeSlider">
             <hr>
@@ -67,17 +70,20 @@
         <h2 class="infoPageHeader" id="infoTitle">Info</h2>
         <a href="https://github.com/Phinbo/ChessGame" target="_blank" rel="noopener noreferrer">Project Repo</a>
         <p>
-        <br><br>
-        FEN strings represent the current position. R = Rook, N = Knight, B = Bishop, Q = Queen, K = King, and P = Pawn.
-        <br>
-        Lowercase letters indicate a black piece, while uppcase letters indicate a white piece. A slash represents the end of a row, and a number represents that number of consecutive blank spaces.
-        <br>
-        You can use this to create unique starting positions, and also to create starting positions for games on different sized boards.
-        <br>
-        If the code you enter is invalid, nothing will happen when you press "update."
-        <br><br>
-        Pro tip, you will regret creating boards larger than 200x200.
-        <br><br>
+            <br><br>
+            FEN strings represent the current position. R = Rook, N = Knight, B = Bishop, Q = Queen, K = King, and P =
+            Pawn.
+            <br>
+            Lowercase letters indicate a black piece, while uppcase letters indicate a white piece. A slash represents
+            the end of a row, and a number represents that number of consecutive blank spaces.
+            <br>
+            You can use this to create unique starting positions, and also to create starting positions for games on
+            different sized boards.
+            <br>
+            If the code you enter is invalid, nothing will happen when you press "update."
+            <br><br>
+            Pro tip, you will regret creating boards larger than 200x200.
+            <br><br>
         </p>
     </div>
 
