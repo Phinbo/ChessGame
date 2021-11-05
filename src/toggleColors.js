@@ -156,6 +156,9 @@ function initColor() {
     if(val != "") {
         setColor(parseInt(val));
     }
+    else {
+        setColor(0);
+    }
 }
 
 function toggle() {
