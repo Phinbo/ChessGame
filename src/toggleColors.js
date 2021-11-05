@@ -32,7 +32,7 @@ const orange = {
 
     infoPageButton: '#1a1a1a',
     infoPageText: '#1a1a1a',
-    messageBoardButton: '#1a1a1a',
+    messageBoardButton: '#f19130',
     fenGuideText: '#313131',
     fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
@@ -70,7 +70,7 @@ const blue = {
 
     infoPageButton: '#1a1a1a',
     infoPageText: '#1a1a1a',
-    messageBoardButton: '#1a1a1a',
+    messageBoardButton: '#4287a1',
     fenGuideText: '#313131',
     fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
@@ -108,7 +108,7 @@ const green = {
 
     infoPageButton: '#1a1a1a',
     infoPageText: '#1a1a1a',
-    messageBoardButton: '#1a1a1a',
+    messageBoardButton: '#7ab131',
     fenGuideText: '#313131',
     fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
@@ -136,7 +136,7 @@ const red = {
 
     infoPageButton: '#1a1a1a',
     infoPageText: '#1a1a1a',
-    messageBoardButton: '#1a1a1a',
+    messageBoardButton: '#815353',
     fenGuideText: '#313131',
     fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
