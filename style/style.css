@@ -411,3 +411,10 @@ hr {
 #invalidFenText {
     margin-left: 40px;
 }
+a, a:active {
+    font-family: "Roboto Mono", monospace;
+    color: var(--infoPageText);
+}
+a:hover {
+    color:var(--border);
+}
