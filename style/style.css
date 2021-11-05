@@ -6,7 +6,7 @@
     box-sizing: border-box;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 1.1rem;
-    color: #1a1a1a;
+    /* color: #1a1a1a; */
 }
 
 /* Variables */
@@ -27,11 +27,14 @@
 
     /* --infoPageBorder: rgb(223, 134, 33); */
     --infoPage: #b1b6bd;
+    --infoPageButton: #1a1a1a;
+    --infoPageText: #1a1a1a;
 
     --buttonHover: rgb(255, 194, 137);
 
     --messageBoard: rgba(84, 95, 99, 0.836);
     --message: rgb(189, 189, 189);
+    --messageBoardButton: #1a1a1a;
 
     --underAttack: rgb(255, 75, 75);
     --highlightHueRotation: -40deg;
@@ -46,6 +49,8 @@
     --pawnChangePage: rgba(255, 255, 255, 0.356);
     --pawnChange: rgb(0, 0, 0);
     /* --pieceChangeHover: rgb(216, 83, 30); */
+    --fenGuideText: #313131;
+    --fenGuideBackground: rgba(255, 255, 255, 0.452);
 
 }
 
@@ -76,15 +81,15 @@ body {
     background-attachment: fixed;
 }
 
+/* TILES */
 .darkTile {
     background-color: var(--darkTileColor);
 }
-
 .lightTile {
     background-color: var(--lightTileColor);
 }
 
-
+/* INFO PAGE */
 #infoPage {
     z-index: 14;
     position: fixed;
@@ -93,6 +98,7 @@ body {
     flex-direction: column;
     overflow-y: scroll;
     overflow-x: visible;
+    color: var(--infoPageText);
     height: 100vh;
     padding: 20px;
     padding-bottom: 0px;
@@ -108,15 +114,18 @@ body {
     box-shadow: rgba(0, 0, 0, 1) 0px 0px 7px 2px;
 }
 
+/* HIDE SCROLLBAR */
 #infoPage::-webkit-scrollbar {
     width: 0;
 }
 
+/* APPLIES TO INFOPAGE AND INFOPAGE BUTTON*/
 .leftTransition {
     transition: left .5s;
     transition-timing-function: ease-in-out;
 }
 
+/* BUTTON TO OPEN AND CLOSE INFOPAGE */
 #open-close {
     position: fixed;
     top: 30px;
@@ -126,14 +135,17 @@ body {
     text-align: center;
     font-size: 1.25em;
     user-select: none;
+    color:var(--infoPageButton);
 }
 
+/* MAIN HEADERS IN INFOPAGE */
 .infoPageHeader {
     font-size: 1.7rem;
     text-align: center;
     margin-bottom: 30px;
 }
 
+/* HORIZONTAL LINES IN INFO PAGE */
 hr {
     border: 1px solid rgba(0, 0, 0, 0.15);
     margin-top: 30px;
@@ -144,11 +156,7 @@ hr {
     margin: 10px 0px 10px 0px;
 }
 
-.button {
-    position: relative;
-    width: 100px;
-}
-
+/* BUTTONS IN GAME SETTINGS */
 #customButton {
     align-self: center;
     display: flex;
@@ -156,12 +164,7 @@ hr {
     width: 250px;
 }
 
-#customLabel {
-    font-size: 1.5rem;
-    text-align: center;
-    align-self: center;
-}
-
+/* ROW AND COLUMN BUTTONS */
 .classBorderedInput {
     margin-bottom: 10px;
     border: 1px solid rgba(0, 0, 0, .5);
@@ -169,9 +172,10 @@ hr {
     border-radius: 3px;
 }
 
+/* FEN AREA */
 #fenArea {
     margin-bottom: 10px;
-    font-family: "Roboto Mono",monospace;
+    font-family: 'Roboto Mono',monospace;
     font-size: .75rem;
     resize: vertical;
     max-width: 100%;
@@ -181,6 +185,7 @@ hr {
     border-radius: 3px;
 }
 
+/* FEN "UPDATE" BUTTON */
 #generateButton {
     line-height: 1rem;
     align-self: flex-end;
@@ -191,11 +196,11 @@ hr {
     border-radius: 3px;
     transition: background-color .1s;
 }
-
 #generateButton:hover {
     background-color: var(--buttonHover);
 }
 
+/* "COLOR" BUTTON */
 #toggleColors {
     line-height: 1rem;
     height: 25px;
@@ -208,6 +213,7 @@ hr {
     background-color: var(--buttonHover);
 }
 
+/* MESSAGEBOARD */
 #messageBoard {
     padding: 0px 0px 0 20px;
     z-index: 11;
@@ -221,11 +227,11 @@ hr {
     overflow-y: scroll;
     border-radius: 10px;
 }
-
 #messageBoard::-webkit-scrollbar {
     background-color: transparent;
 }
 
+/* INDIVIDUAL MESSAGE IN MESSAGEBOARD */
 .message {
     line-height: .8rem;
     font-size: .8rem;
@@ -236,16 +242,29 @@ hr {
     color: var(--message);
 }
 
+/* BUTTON TO OPEN AND CLOSE THE MESSAGEBOARD */
+#messageBoard-open-close {
+    text-align: center;
+    z-index: 12;
+    position: fixed;
+    right: 5vw;
+    top: 30px;
+    color: var(--messageBoardButton);
+}
+
+/* CHESSBOARD TILE */
 .chessBoardTile:hover {
     z-index: 10;
     /* Makes it so box shodows stay on top */
     box-shadow: var(--tileHoverBorder) 0px 0px 0px 2px;
 }
 
+/* A TILE HIGHLIGHTED BECAUSE OF MOVE GENERATION */
 .highTile {
     filter: hue-rotate(var(--highlightHueRotation));
 }
 
+/* A TILE WHERE A PIECE IS UNDER ATTACK */
 .underAttack {
     z-index: 9;
     background-color: var(--underAttack);
@@ -259,18 +278,7 @@ hr {
     filter: none;
 }
 
-#messageBoard-open-close {
-    text-align: center;
-    z-index: 12;
-    position: fixed;
-    right: 5vw;
-    top: 30px;
-}
-
-.invisible {
-    display: none;
-}
-
+/* SLIDER FOR TILE SIZE */
 #tileSizeSlider {
     margin-left: 50%;
     transform: translateX(-50%);
@@ -280,14 +288,12 @@ hr {
     margin-bottom: 20px;
     background-color: transparent;
 }
-
 #tileSizeSlider::-webkit-slider-runnable-track {
     border-radius: 500px;
     width: 100%;
     height: 6px;
     background: rgba(0, 0, 0, 0.376);
 }
-
 #tileSizeSlider::-webkit-slider-thumb {
     border: 1px solid #000000a9;
     height: 18px;
@@ -297,11 +303,11 @@ hr {
     background: rgb(255, 255, 255);
     -webkit-appearance: none;
 }
-
 #tileSizeSlider::-webkit-slider-thumb:hover {
     background: rgb(199, 199, 199);
 }
 
+/* CONTAINER FOR UNDO AND REDO BUTTONS */
 #undo-redo {
     z-index: 11;
     position: fixed;
@@ -313,6 +319,7 @@ hr {
     text-align: center;
 }
 
+/* UNDO AND REDO BUTTON */
 .stateButton {
     text-align: center;
     margin-left: 50px;
@@ -324,11 +331,11 @@ hr {
     font-size: 1.7rem;
     transition: color .1s;
 }
-
 .stateButton:hover {
     color: var(--uiHover);
 }
 
+/* OVERLAYS CHESS BOARD WHEN PAWN CHANGE OCCURS */
 #pawnChangePage {
     display: none;
     position: fixed;
@@ -343,6 +350,7 @@ hr {
     background-color: var(--pawnChangePage);
 }
 
+/* CONTAINING BOX FOR PIECE CHANGE ELEMENTS */
 #pieceSelector {
     position: absolute;
     top: 50%;
@@ -350,26 +358,25 @@ hr {
     transform: translate(-50%, -50%);
     max-width: 90%;
 }
-
+/* QUEEN, ROOK, KNIGHT, OR BISHOP THAT CAN BE CHOSEN FOR UPGRADE */
 .pieceChangeElement {
     margin: 30px;
     font-size: 7rem;
     color: var(--pieceChange);
-
     transition: color .1s;
 }
-
 .pieceChangeElement:hover {
     color: var(--uiHover);
 }
 
+/* FEN INSTRUCTIONS IN INFOPAGE */
 #fenGuide {
     margin-top: 20px;
     margin-bottom: 20px;
-    color: white;
+    color: var(--fenGuideText);
     padding: 5px 20px 5px 20px;
     list-style: none;
-    background-color: rgba(255, 255, 255, 0.452);
+    background-color: var(--fenGuideBackground);
     border-radius: 10px;
 }
 #fenGuide > h3 {

@@ -29,6 +29,12 @@ const orange = {
     
     pawnChangePage : 'rgba(255, 255, 255, 0.356)',
     pawnChange : 'rgb(0, 0, 0)',
+
+    infoPageButton: '#1a1a1a',
+    infoPageText: '#1a1a1a',
+    messageBoardButton: '#1a1a1a',
+    fenGuideText: '#313131',
+    fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
 const blue = {
     darkTileColor: "#3c9f9f",
@@ -61,6 +67,12 @@ const blue = {
     
     pawnChangePage : 'rgba(255, 255, 255, 0.356)',
     pawnChange : 'rgb(0, 0, 0)',
+
+    infoPageButton: '#1a1a1a',
+    infoPageText: '#1a1a1a',
+    messageBoardButton: '#1a1a1a',
+    fenGuideText: '#313131',
+    fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
 const green = {
     darkTileColor: "#3a8f4c",
@@ -93,6 +105,12 @@ const green = {
     
     pawnChangePage: 'rgba(255, 255, 255, 0.356)',
     pawnChange: 'rgb(0, 0, 0)',
+
+    infoPageButton: '#1a1a1a',
+    infoPageText: '#1a1a1a',
+    messageBoardButton: '#1a1a1a',
+    fenGuideText: '#313131',
+    fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
 const red = {
     darkTileColor: '#5c1f1f',
@@ -115,6 +133,12 @@ const red = {
     uiHover: 'rgb(183 34 52)',
     pawnChangePage: 'rgb(0 0 0 / 35%)',
     pawnChange: 'rgb(0 0 0)',
+
+    infoPageButton: '#1a1a1a',
+    infoPageText: '#1a1a1a',
+    messageBoardButton: '#1a1a1a',
+    fenGuideText: '#313131',
+    fenGuideBackground: 'rgba(255, 255, 255, 0.452)',
 };
 
 const root = document.documentElement;
