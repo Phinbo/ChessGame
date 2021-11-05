@@ -1,12 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap');
 /* Initial Settings */
-
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 1.1rem;
-    color: #171b20;
+    color: #1a1a1a;
 }
 
 /* Variables */
@@ -95,6 +95,7 @@ body {
     overflow-x: visible;
     height: 100vh;
     padding: 20px;
+    padding-bottom: 0px;
     line-height: 2rem;
     left: -373px;
     top: 0px;
@@ -170,8 +171,8 @@ hr {
 
 #fenArea {
     margin-bottom: 10px;
-    font-family: monospace;
-    font-size: .8rem;
+    font-family: "Roboto Mono",monospace;
+    font-size: .75rem;
     resize: vertical;
     max-width: 100%;
     height: 50px;
@@ -210,7 +211,6 @@ hr {
 #messageBoard {
     padding: 0px 0px 0 20px;
     z-index: 11;
-    /*place this above any hovered tiles*/
     width: 300px;
     max-width: 50%;
     position: fixed;
@@ -361,4 +361,46 @@ hr {
 
 .pieceChangeElement:hover {
     color: var(--uiHover);
+}
+
+#fenGuide {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: white;
+    padding: 5px 20px 5px 20px;
+    list-style: none;
+    background-color: rgba(255, 255, 255, 0.452);
+    border-radius: 10px;
+}
+#fenGuide > h3 {
+    text-align: center;
+    margin: 0;
+}
+#fenGuide > hr {
+    margin: 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+#fenGuide > ul {
+    list-style: none;
+}
+#fenGuide > ul > li {
+    font-size: 1rem;
+    font-family: 'Roboto Mono', monospace;
+}
+#fenGuide > p {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+}
+#copyright {
+    background-color: rgba(0, 0, 0, 0.205);
+    color: rgba(255, 255, 255, 0.651);
+    width: 100%;
+    position: relative;
+    bottom: 0px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 10px 10px 0px 0px;
+}
+#invalidFenText {
+    margin-left: 40px;
 }

@@ -68,23 +68,39 @@
         <hr>
         <!-- Written Information -->
         <h2 class="infoPageHeader" id="infoTitle">Info</h2>
-        <a href="https://github.com/Phinbo/ChessGame" target="_blank" rel="noopener noreferrer">Project Repo</a>
         <p>
-            <br><br>
-            FEN strings represent the current position. R = Rook, N = Knight, B = Bishop, Q = Queen, K = King, and P =
-            Pawn.
-            <br>
-            Lowercase letters indicate a black piece, while uppcase letters indicate a white piece. A slash represents
-            the end of a row, and a number represents that number of consecutive blank spaces.
-            <br>
+            FEN strings represent the current position.
+        <div id="fenGuide">
+            <h3>FEN Guide</h3>
+            <hr>
+            <ul>
+                <li>R = Rook</li>
+                <li>N = Knight</li>
+                <li>B = Bishop</li>
+                <li>Q = Queen</li>
+                <li>K = King</li>
+                <li>P = Pawn</li>
+                <li># = # of Blank Tiles</li>
+                <li>/ = End of Row</li>
+            </ul>
+            <hr>
+            <p>Uppercase = White Piece</p>
+            <p>Lowercase = Black Piece</p>
+
+        </div>
+        <ul>
             You can use this to create unique starting positions, and also to create starting positions for games on
             different sized boards.
-            <br>
-            If the code you enter is invalid, nothing will happen when you press "update."
-            <br><br>
-            Pro tip, you will regret creating boards larger than 200x200.
-            <br><br>
+            <li id="invalidFenText">
+                If the code you enter is invalid, nothing will happen when you press "update."
+            </li>
+
+        </ul>
+        <hr>
+        <a href="https://github.com/Phinbo/ChessGame" target="_blank" rel="noopener noreferrer">ChessGame Repository</a>
+        <br>
         </p>
+        <p id="copyright">&copy; Phineas Ziegler, 2021</p>
     </div>
 
 </body>
