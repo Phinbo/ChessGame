@@ -412,6 +412,7 @@ hr {
     margin-left: 40px;
 }
 a, a:active {
+    text-align: center;
     font-family: "Roboto Mono", monospace;
     color: var(--infoPageText);
 }
